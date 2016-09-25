@@ -1,0 +1,19 @@
+{
+  "timeout": 120000,
+  "registry": {
+    "search": [
+      "http://<proget>/bower/<feed1>",
+      "http://<proget>/bower/<feed2>"
+    ]
+  },
+  "resolvers": [
+    "proget-universal-bower-resolver"
+  ],
+  "proget": {
+    "server": "proget://<proget>",
+    "apiKey": "<key>",
+    "feed": "<feed>",
+    "group": "<group>",
+    "secure": false
+  }
+}

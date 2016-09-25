@@ -1,0 +1,9 @@
+
+/.idea/
+*.iml
+/node_modules/
+/test/data/archive/
+/test/data/bowerPkgExample/upack.json
+/coverage/
+/npm-debug.log
+/docs/

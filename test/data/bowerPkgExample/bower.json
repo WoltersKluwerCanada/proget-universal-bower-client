@@ -1,0 +1,16 @@
+{
+  "name": "test-packBower",
+  "version": "0.0.0",
+  "description": "Description of the package",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "dependencies": {
+    "proget://pkg": "1.1.1",
+    "angular": "*"
+  },
+  "ignore": [
+    "ignoreByBowerJson.txt"
+  ]
+}
