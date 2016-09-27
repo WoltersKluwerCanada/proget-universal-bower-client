@@ -17,10 +17,9 @@ describe("archive", () => {
     });
 
     it("create an archive", (done) => {
-        let archiveFolder = path.join(__dirname, "data", "bowerPkgExample"),
-            globPattern = path.join(archiveFolder, "**");
+        let archiveFolder = path.join(__dirname, "data", "bowerPkgExample");
 
-        glob(globPattern, {dot: true, nodir: true}, (err, files) => {
+        glob("**", {dot: true, nodir: true, cwd: archiveFolder}, (err, files) => {
             if (err) {
                 done(err);
             } else {

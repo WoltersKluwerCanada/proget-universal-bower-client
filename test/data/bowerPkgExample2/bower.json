@@ -11,7 +11,7 @@
     "angular": "*"
   },
   "ignore": [
-    "ignoreByBowerJson.txt",
+    "*",
     "!ignoreButNot.txt"
   ]
 }

@@ -10,80 +10,83 @@ const utils = require("../lib/utils");
 
 describe("utils", () => {
     let testFolder = path.join(__dirname, "data", "bowerPkgExample");
+    let testFolderWithIgnoreAll = path.join(__dirname, "data", "bowerPkgExample2");
+
+    let testFolderContent = [
+        ".bowerrc",
+        ".gitignore",
+        "bower.json",
+        "fake.upack",
+        "ignoreButNot.txt",
+        "ignoreByBowerJson.txt",
+        "ignoreByGitignore.txt",
+        "index.js",
+        "folder/.eslintrc.js",
+        "folder/subfile.js"
+    ];
 
     // Test with only the minimal information
-    it("getIgnoredData", (done) => {
-        utils.getIgnoredData(testFolder, (err, data) => {
-            try {
-                expect(err).to.be.null;
+    describe("getIgnoredData", () => {
+        it("clean", (done) => {
+            utils.getIgnoredData(testFolder, (err, data) => {
+                try {
+                    expect(err).to.be.null;
 
-                expect(data).to.have.all.keys(["_added", "_cache", "_rules"]);
+                    expect(data).to.have.all.keys(["_added", "_cache", "_rules"]);
 
-                expect(data._rules).to.deep.have.members([
-                    {
-                        "negative": false,
-                        "origin": "node_modules/",
-                        "pattern": "node_modules/",
-                        "regex": /(?:^|\/)node_modules\//i
-                    },
-                    {
-                        "negative": false,
-                        "origin": "bower_components/",
-                        "pattern": "bower_components/",
-                        "regex": /(?:^|\/)bower_components\//i
-                    },
-                    {
-                        "negative": false,
-                        "origin": "*.upack",
-                        "pattern": "*.upack",
-                        "regex": /(?:^|\/)[^\/]*\.upack(?=$|\/)/i
-                    },
-                    {
-                        "negative": false,
-                        "origin": ".bowerrc",
-                        "pattern": ".bowerrc",
-                        "regex": /(?:^|\/)\.bowerrc(?=$|\/)/i
-                    },
-                    {
-                        "negative": false,
-                        "origin": ".git/",
-                        "pattern": ".git/",
-                        "regex": /(?:^|\/)\.git\//i
-                    },
-                    {
-                        "negative": false,
-                        "origin": "ignoreByGitIgnore.txt",
-                        "pattern": "ignoreByGitIgnore.txt",
-                        "regex": /(?:^|\/)ignoreByGitIgnore\.txt(?=$|\/)/i
-                    },
-                    {
-                        "negative": false,
-                        "origin": "ignoreByBowerJson.txt",
-                        "pattern": "ignoreByBowerJson.txt",
-                        "regex": /(?:^|\/)ignoreByBowerJson\.txt(?=$|\/)/i
-                    }
-                ]);
+                    expect(data.filter(testFolderContent)).to.deep.have.members([
+                        ".gitignore",
+                        "bower.json",
+                        "ignoreButNot.txt",
+                        "index.js",
+                        "folder/.eslintrc.js",
+                        "folder/subfile.js"
+                    ]);
 
-                done();
-            } catch (e) {
-                done(e);
-            }
+                    done();
+                } catch (e) {
+                    done(e);
+                }
+            });
+        });
+
+        it("ugly", (done) => {
+            utils.getIgnoredData(testFolderWithIgnoreAll, (err, data) => {
+                try {
+                    expect(err).to.be.null;
+
+                    expect(data).to.have.all.keys(["_added", "_cache", "_rules"]);
+
+                    expect(data.filter(testFolderContent)).to.deep.have.members([
+                        "bower.json",
+                        "ignoreButNot.txt"
+                    ]);
+
+                    done();
+                } catch (e) {
+                    done(e);
+                }
+            });
         });
     });
 
     it("getFolderContent", (done) => {
-        glob(path.join(testFolder, "**"), {dot: true, nodir: true}, (err, files) => {
-            expect(err).to.be.null;
-
-            utils.getFolderContent(testFolder, (err, data) => {
+        try {
+            glob("**", {dot: true, nodir: true, cwd: testFolder}, (err, files) => {
                 expect(err).to.be.null;
 
-                expect(data).to.be.a("Array");
-                expect(data).eql(files);
+                utils.getFolderContent(testFolder, (err, data) => {
+                    expect(err).to.be.null;
 
-                done();
+                    expect(data).to.be.a("Array");
+                    expect(data).eql(files);
+
+                    done();
+                });
             });
-        });
+        } catch (e) {
+            done(e);
+        }
     });
 
     it("getBowerContent", (done) => {
@@ -161,7 +164,7 @@ describe("utils", () => {
             function (res) {
                 try {
                     expect(res).eql({
-                        "json": path.join(testFolder, "upack.json"),
+                        "json": "upack.json",
                         "upack": "test-packBower.0.0.0.upack"
                     });
 

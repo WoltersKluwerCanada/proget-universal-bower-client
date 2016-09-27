@@ -36,7 +36,6 @@ The next files were ignored:
 
 - The content of the `.gitignore` file.
 - The content of the `ignore` section of the `bower.json` file.
-- The next folders: `node_modules` and `bower_components`.
 - The next files: `*.upack`.
 
 ## Upcoming
