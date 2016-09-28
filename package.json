@@ -1,6 +1,6 @@
 {
   "name": "proget-universal-bower-client",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Client to create and push .upack archive on ProGet from bower projects.",
   "keywords": [
     "proget",
