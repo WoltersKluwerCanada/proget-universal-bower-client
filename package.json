@@ -38,10 +38,11 @@
   },
   "scripts": {
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha -R ./test/*.test.js",
+    "coveralls": "istanbul cover node_modules/mocha/bin/_mocha -R ./test/*.test.js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "jsDoc": "jsdoc --configure .jsdoc.json --verbose",
     "lint": "eslint lib/",
     "lintTest": "eslint test/",
-    "test": "npm run lint & npm run lintTest & npm run unit && npm run coverage",
+    "test": "npm run lint & npm run lintTest & npm run unit",
     "unit": "mocha -R spec test/*.test.js"
   },
   "engines": {

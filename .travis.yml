@@ -14,5 +14,8 @@ install:
   - npm --version
   - npm install
 
+after_success:
+  - npm run coveralls
+
 os:
   - linux
