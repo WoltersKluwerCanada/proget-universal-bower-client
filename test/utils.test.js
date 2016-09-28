@@ -38,6 +38,7 @@ describe("utils", () => {
                         ".gitignore",
                         "bower.json",
                         "ignoreButNot.txt",
+                        "ignoreByGitignore.txt",
                         "index.js",
                         "folder/.eslintrc.js",
                         "folder/subfile.js"
@@ -50,7 +51,7 @@ describe("utils", () => {
             });
         });
 
-        it("ugly", (done) => {
+        it("ignore all but...", (done) => {
             utils.getIgnoredData(testFolderWithIgnoreAll, (err, data) => {
                 try {
                     expect(err).to.be.null;

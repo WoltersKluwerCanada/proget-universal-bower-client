@@ -2,6 +2,11 @@
   "name": "proget-universal-bower-client",
   "version": "0.1.2",
   "description": "Client to create and push .upack archive on ProGet from bower projects.",
+  "keywords": [
+    "proget",
+    "bower",
+    "client"
+  ],
   "bin": {
     "proget-universal-bower-client": "bin/proget-universal-bower-client",
     "pubc": "bin/proget-universal-bower-client"
@@ -13,6 +18,16 @@
   "bugs": {
     "url": "https://github.com/WoltersKluwerCanada/proget-universal-bower-client/issues"
   },
+  "contributors": [
+    {
+      "name": "Alexandre Beaudoin",
+      "url": "https://github.com/ofrogon"
+    },
+    {
+      "name": "François Genois",
+      "url": "https://github.com/franknarf8"
+    }
+  ],
   "license": "MIT",
   "dependencies": {
     "adm-zip": "^0.4.7",

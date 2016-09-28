@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.2.0 - 2016-09-28
+
+- Remove the parsing of the `.gitignore` as ignored files. Now all ignored files must be in the `bower.json` `ignore` section (breaking change).
+
 ## v0.1.2 - 2016-09-27
 
 - Add: Support for path with spaces in archive.
