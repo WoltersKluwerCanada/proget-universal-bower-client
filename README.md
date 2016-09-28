@@ -1,4 +1,4 @@
-[![dependencies Status](https://david-dm.org/WoltersKluwerCanada/proget-universal-bower-client/status.svg)](https://david-dm.org/WoltersKluwerCanada/proget-universal-bower-client) [![Build Status](https://travis-ci.org/WoltersKluwerCanada/proget-universal-bower-client.svg?branch=master)](https://travis-ci.org/WoltersKluwerCanada/proget-universal-bower-client)
+[![dependencies Status](https://david-dm.org/WoltersKluwerCanada/proget-universal-bower-client/status.svg)](https://david-dm.org/WoltersKluwerCanada/proget-universal-bower-client) [![Build Status](https://travis-ci.org/WoltersKluwerCanada/proget-universal-bower-client.svg?branch=master)](https://travis-ci.org/WoltersKluwerCanada/proget-universal-bower-client) [![Coverage Status](https://coveralls.io/repos/github/WoltersKluwerCanada/proget-universal-bower-client/badge.svg)](https://coveralls.io/github/WoltersKluwerCanada/proget-universal-bower-client)
 
 # ProGet Universal Bower Client
 
