@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.1.2 - 2016-09-27
+
+- Add: Support for path with spaces in archive.
+- Add: The combination of `--Version` and `--force` now ignore wrong Semantic Versioning format.
+
 ## v0.1.1 - 2016-09-27
 
 - Internally: Better use of the module `glob`.

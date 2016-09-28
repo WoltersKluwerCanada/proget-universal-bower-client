@@ -3,25 +3,8 @@
 
 const path = require("path");
 const program = require("commander");
-const validate = require("semver").valid;
 
 const pkg = require("../package.json");
-
-/**
- * Validate if the string pass as parameter to Version is compatible with the semantic versioning
- *
- * @param {string} [element] - The parameter pass to the Version parameter
- * @return {string|boolean}
- */
-function semverVersion(element) {
-    if (element) {
-        if (validate(element)) {
-            return element;
-        } else {
-            return false;
-        }
-    }
-}
 
 /**
  * Parse the path pass to it's absolute form
@@ -48,7 +31,7 @@ program
     .option("-P --push [path]", "Publish the package. Require: --source", parsePath, null)
     .option("-d --deploy [path]", "Create the package and publish it on the server.", parsePath, null)
     .option("-s --source [source]", "The address of the server to deploy to.", undefined, null)
-    .option("-V --Version [version]", "Set the package to the specified version.", semverVersion, null)
+    .option("-V --Version [version]", "Set the package to the specified version.", undefined, null)
     .option("-f --force", "For --pack, can overwrite the package.", null, null)
     .option("-F --Feed [feed]", "Set the feed to the specified feed.", null, null)
     .parse(process.argv);
