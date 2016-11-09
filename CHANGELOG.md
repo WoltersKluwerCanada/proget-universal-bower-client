@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.2.1 - 2016-10-xx
+## v0.2.1 - 2016-11-09
 
 - Fix error when calling the parameters `--deploy` and `--version` where the current working directory will not be the one specified after `--deploy`.
 - Fix the HTTP header information when pushing the package to the server.
