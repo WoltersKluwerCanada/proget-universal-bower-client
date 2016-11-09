@@ -1,14 +1,17 @@
 "use strict";
 
+// Set test environment
+process.env.NODE_ENV = "test";
+
 const chai = require("chai");
 const expect = chai.expect;
 
-const createError = require("../lib/createError");
+const createError = require("../../lib/createError");
 
 // Test the CreateError module methods
-describe("createError", () => {
+describe("createError", function() {
     // Test with only the minimal information
-    it("basic information", () => {
+    it("basic information", function() {
         let err = createError("Some test text!", "ETEST");
 
         expect(err).eql({"code": "ETEST"});
@@ -16,7 +19,7 @@ describe("createError", () => {
     });
 
     // Test with some extra information
-    it("advance information", () => {
+    it("advance information", function() {
         let err = createError("Some test text!", "ETEST", {
             details: "Some test details."
         });

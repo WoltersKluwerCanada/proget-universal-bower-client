@@ -1,18 +1,21 @@
 "use strict";
 
+// Set test environment
+process.env.NODE_ENV = "test";
+
 const chai = require("chai");
 const expect = chai.expect;
 const fs = require("fs");
 const path = require("path");
 const glob = require("glob");
 
-const utils = require("../lib/utils");
+const utils = require("../../lib/utils");
 
-describe("utils", () => {
-    let testFolder = path.join(__dirname, "data", "bowerPkgExample");
-    let testFolderWithIgnoreAll = path.join(__dirname, "data", "bowerPkgExample2");
+describe("utils", function() {
+    const testFolder = path.join(__dirname, "..", "data", "bowerPkgExample");
+    const testFolderWithIgnoreAll = path.join(__dirname, "..", "data", "bowerPkgExample2");
 
-    let testFolderContent = [
+    const testFolderContent = [
         ".bowerrc",
         ".gitignore",
         "bower.json",
@@ -27,7 +30,7 @@ describe("utils", () => {
 
     // Test with only the minimal information
     describe("getIgnoredData", () => {
-        it("clean", (done) => {
+        it("clean", function(done) {
             utils.getIgnoredData(testFolder, (err, data) => {
                 try {
                     expect(err).to.be.null;
@@ -51,7 +54,7 @@ describe("utils", () => {
             });
         });
 
-        it("ignore all but...", (done) => {
+        it("ugly", function(done) {
             utils.getIgnoredData(testFolderWithIgnoreAll, (err, data) => {
                 try {
                     expect(err).to.be.null;
@@ -71,7 +74,7 @@ describe("utils", () => {
         });
     });
 
-    it("getFolderContent", (done) => {
+    it("getFolderContent", function(done) {
         try {
             glob("**", {dot: true, nodir: true, cwd: testFolder}, (err, files) => {
                 expect(err).to.be.null;
@@ -90,9 +93,9 @@ describe("utils", () => {
         }
     });
 
-    it("getBowerContent", (done) => {
+    it("getBowerContent", function(done) {
         utils.getBowerContent(testFolder).then(
-            function (files) {
+            (files) => {
                 try {
                     // Remove the root path of the folder list to validate test
                     files = files.map((el) => {
@@ -115,13 +118,13 @@ describe("utils", () => {
                     done(e);
                 }
             },
-            function (err) {
+            (err) => {
                 done(err);
             }
         );
     });
 
-    it.skip("getNpmCredentials", (done) => {
+    it("getNpmCredentials", function(done) {
         utils.getNpmCredentials((err, data) => {
             expect(err).to.be.null;
 
@@ -135,7 +138,7 @@ describe("utils", () => {
         });
     });
 
-    it("readJsonFromFile", (done) => {
+    it("readJsonFromFile", function(done) {
         fs.readFile(path.join(testFolder, ".bowerrc"), "utf8", (err, bowerrc) => {
             expect(err).to.be.null;
 
@@ -160,9 +163,9 @@ describe("utils", () => {
 
     });
 
-    it("createUpackJson", (done) => {
+    it("createUpackJson", function(done) {
         utils.createUpackJson(testFolder).then(
-            function (res) {
+            (res) => {
                 try {
                     expect(res).eql({
                         "json": "upack.json",
@@ -184,7 +187,7 @@ describe("utils", () => {
                     done(e);
                 }
             },
-            function (err) {
+            (err) => {
                 done(err);
             }
         );

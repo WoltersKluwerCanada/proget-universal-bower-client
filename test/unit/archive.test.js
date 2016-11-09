@@ -1,23 +1,26 @@
 "use strict";
 
+// Set test environment
+process.env.NODE_ENV = "test";
+
 const path = require("path");
 const glob = require("glob");
 const fs = require("fs");
-const share = require("./data/share");
+const share = require("../data/share");
 
-const archive = require("../lib/archive");
+const archive = require("../../lib/archive");
 
-describe("archive", () => {
-    let testFolder = path.join(__dirname, "data", "archive");
+describe("archive", function() {
+    const testFolder = path.join(__dirname, "..", "data", "archive");
 
-    before((done) => {
+    before(function(done) {
         share.createTestFolder(testFolder, (err)=> {
             done(err);
         });
     });
 
-    it("create an archive", (done) => {
-        let archiveFolder = path.join(__dirname, "data", "bowerPkgExample");
+    it("create an archive", function(done) {
+        let archiveFolder = path.join(__dirname, "..", "data", "bowerPkgExample");
 
         glob("**", {dot: true, nodir: true, cwd: archiveFolder}, (err, files) => {
             if (err) {
@@ -36,7 +39,7 @@ describe("archive", () => {
         });
     });
 
-    after((done) => {
+    after(function(done) {
         share.deleteTestFolder(testFolder, done);
     });
 });

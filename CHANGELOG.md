@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.2.1 - 2016-10-xx
+
+- Fix error when calling the parameters `--deploy` and `--version` where the current working directory will not be the one specified after `--deploy`.
+- Fix the HTTP header information when pushing the package to the server.
+
 ## v0.2.0 - 2016-09-28
 
 - Remove the parsing of the `.gitignore` as ignored files. Now all ignored files must be in the `bower.json` `ignore` section (breaking change).
