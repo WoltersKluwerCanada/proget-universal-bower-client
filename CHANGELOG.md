@@ -1,5 +1,9 @@
 # Changelog
 
+## [WIP]v0.2.3 - 2016-12-07
+
+- Fix: Now the tool support space(s) in the path to the output `.upack` file.
+
 ## v0.2.2 - 2016-12-01
 
 - Add: New error message when the destination folder doesn't exist.

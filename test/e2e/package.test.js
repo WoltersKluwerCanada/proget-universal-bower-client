@@ -12,11 +12,24 @@ const cliPath = path.join(__dirname, "..", "..", "bin", "proget-universal-bower-
 describe("package", function () {
     const testFolder = path.join(__dirname, "..", "data", "package");
     const testFolderTemp = path.join(__dirname, "..", "data", "packageTmp");
+    const testFolderTempWithSpace = path.join(__dirname, "..", "data", "package temp");
     const dataFolder = path.join(__dirname, "..", "data", "bowerPkgExample");
 
     before(function (done) {
         fs.remove(testFolder, (err) => {
-            done(err);
+            if (err) {
+                done(err);
+            } else {
+                fs.remove(testFolderTemp, (err) => {
+                    if (err) {
+                        done(err);
+                    } else {
+                        fs.remove(testFolderTempWithSpace, (err) => {
+                            done(err);
+                        });
+                    }
+                });
+            }
         });
     });
 
@@ -84,6 +97,38 @@ describe("package", function () {
                                     });
                                 } else {
                                     done(`The file was not created in the folder "${testFolderTemp}".`);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+    describe("distant folder with spaces", function () {
+        it("with outputDirectory parameter", function (done) {
+            fs.mkdir(testFolderTempWithSpace, (err) => {
+                if (err) {
+                    done(err);
+                } else {
+                    exec(`node ${cliPath} --pack ${testFolder} --outputDirectory "${testFolderTempWithSpace}"`, {cwd: __dirname}, (err) => {
+                        if (err) {
+                            done(err);
+                        } else {
+                            fs.stat(path.join(testFolder, "test-packBower.0.0.0.upack"), (err) => {
+                                if (err) {
+                                    fs.stat(path.join(testFolderTempWithSpace, "test-packBower.0.0.0.upack"), (err) => {
+                                        if (err) {
+                                            done(err);
+                                        } else {
+                                            fs.remove(testFolderTempWithSpace, (err) => {
+                                                done(err);
+                                            });
+                                        }
+                                    });
+                                } else {
+                                    done(`The file was not created in the folder "${testFolderTempWithSpace}".`);
                                 }
                             });
                         }
@@ -184,7 +229,13 @@ describe("package", function () {
                 done(err);
             } else {
                 fs.remove(testFolderTemp, (err) => {
-                    done(err);
+                    if (err) {
+                        done(err);
+                    } else {
+                        fs.remove(testFolderTempWithSpace, (err) => {
+                            done(err);
+                        });
+                    }
                 });
             }
         });
