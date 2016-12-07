@@ -1,6 +1,6 @@
 # Changelog
 
-## [WIP]v0.2.3 - 2016-12-07
+## v0.2.3 - 2016-12-07
 
 - Fix: Now the tool support space(s) in the path to the output `.upack` file.
 
