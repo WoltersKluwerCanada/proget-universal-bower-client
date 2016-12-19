@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.2.4 - 2016-12-xx
+
+- Remove: Since our resolver `proget-universal-bower-resolver` stop support user to supply `group`, we remove this from the packager too.
+
 ## v0.2.3 - 2016-12-07
 
 - Fix: Now the tool support space(s) in the path to the output `.upack` file.
