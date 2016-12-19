@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.2.4 - 2016-12-xx
+## v0.2.4 - 2016-12-19
 
 - Remove: Since our resolver `proget-universal-bower-resolver` stop support user to supply `group`, we remove this from the packager too.
 
