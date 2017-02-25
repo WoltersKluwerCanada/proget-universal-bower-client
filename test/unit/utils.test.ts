@@ -3,19 +3,24 @@
 // Set test environment
 process.env.NODE_ENV = "test";
 
-const chai = require("chai");
-const expect = chai.expect;
-const fs = require("fs");
-const path = require("path");
-const glob = require("glob");
-
-const utils = require("../../lib/utils");
+import {expect} from "chai";
+import * as fs from "fs";
+import * as glob from "glob";
+import * as path from "path";
+import {
+    createUpackJson,
+    getBowerContent,
+    getFolderContent,
+    getIgnoredData,
+    getNpmCredentials,
+    readJsonFromFile
+} from "../../src/utils";
 
 describe("utils", function() {
     const testFolder = path.join(__dirname, "..", "data", "bowerPkgExample");
     const testFolderWithIgnoreAll = path.join(__dirname, "..", "data", "bowerPkgExample2");
 
-    const testFolderContent = [
+    const testFolderContent: string[] = [
         ".bowerrc",
         ".gitignore",
         "bower.json",
@@ -29,9 +34,9 @@ describe("utils", function() {
     ];
 
     // Test with only the minimal information
-    describe("getIgnoredData", () => {
+    describe("getIgnoredData", function() {
         it("clean", function(done) {
-            utils.getIgnoredData(testFolder, (err, data) => {
+            getIgnoredData(testFolder, (err, data) => {
                 try {
                     expect(err).to.be.null;
 
@@ -55,7 +60,7 @@ describe("utils", function() {
         });
 
         it("ugly", function(done) {
-            utils.getIgnoredData(testFolderWithIgnoreAll, (err, data) => {
+            getIgnoredData(testFolderWithIgnoreAll, (err, data) => {
                 try {
                     expect(err).to.be.null;
 
@@ -79,8 +84,8 @@ describe("utils", function() {
             glob("**", {dot: true, nodir: true, cwd: testFolder}, (err, files) => {
                 expect(err).to.be.null;
 
-                utils.getFolderContent(testFolder, (err, data) => {
-                    expect(err).to.be.null;
+                getFolderContent(testFolder, (err_, data) => {
+                    expect(err_).to.be.null;
 
                     expect(data).to.be.a("Array");
                     expect(data).eql(files);
@@ -94,7 +99,7 @@ describe("utils", function() {
     });
 
     it("getBowerContent", function(done) {
-        utils.getBowerContent(testFolder).then(
+        getBowerContent(testFolder).then(
             (files) => {
                 try {
                     // Remove the root path of the folder list to validate test
@@ -125,7 +130,7 @@ describe("utils", function() {
     });
 
     it("getNpmCredentials", function(done) {
-        utils.getNpmCredentials((err, data) => {
+        getNpmCredentials((err, data: {pass: string[], usr: string[]}) => {
             expect(err).to.be.null;
 
             expect(data).to.include.keys("pass");
@@ -145,9 +150,9 @@ describe("utils", function() {
             bowerrc = JSON.parse(bowerrc);
 
             try {
-                utils.readJsonFromFile(path.join(testFolder, ".bowerrc"), (err, data) => {
+                readJsonFromFile(path.join(testFolder, ".bowerrc"), (err_, data) => {
                     try {
-                        expect(err).to.be.null;
+                        expect(err_).to.be.null;
 
                         expect(data).eql(bowerrc);
 
@@ -164,22 +169,22 @@ describe("utils", function() {
     });
 
     it("createUpackJson", function(done) {
-        utils.createUpackJson(testFolder).then(
+        createUpackJson(testFolder).then(
             (res) => {
                 try {
                     expect(res).eql({
-                        "json": "upack.json",
-                        "upack": "test-packBower.0.0.0.upack"
+                        json: "upack.json",
+                        upack: "test-packBower.0.0.0.upack"
                     });
 
-                    let upackFilePath = path.join(testFolder, "upack.json");
+                    const upackFilePath = path.join(testFolder, "upack.json");
 
                     fs.stat(upackFilePath, (err) => {
                         if (err) {
                             done(err);
                         } else {
-                            fs.unlink(upackFilePath, (err) => {
-                                done(err);
+                            fs.unlink(upackFilePath, (err_) => {
+                                done(err_);
                             });
                         }
                     });

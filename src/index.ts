@@ -27,7 +27,7 @@ const errorFct = (err: Error): void => {
     process.exit(1);
 };
 
-fs.readFile(require.resolve("../package.json"), {encoding: "utf8"}, (err?: Error, data?: string): void => {
+fs.readFile(require.resolve("../../package.json"), {encoding: "utf8"}, (err?: Error, data?: string): void => {
     if (err) {
         errorFct(err);
     } else {

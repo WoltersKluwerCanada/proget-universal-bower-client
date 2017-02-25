@@ -67,7 +67,7 @@ const mainExecution = (program) => {
     }
 
     if ((program.pack && program.push) || program.deploy) {
-        const archiveFolder = process.env["HOME"] || process.env["USERPROFILE"];
+        const archiveFolder = process.env.HOME || process.env.USERPROFILE;
 
         // Source parameter is require with pack and push or deploy
         if (!program.source) {

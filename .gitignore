@@ -10,3 +10,4 @@
 *.tgz
 /typings/
 /lib/
+/.nyc_output/

@@ -1,8 +1,8 @@
 "use strict";
 
-const fs = require("fs");
-const path = require("path");
-const rimraf = require("rimraf");
+import * as fs from "fs";
+import * as path from "path";
+import * as rimraf from "rimraf";
 
 /**
  * Create a temp folder
@@ -14,18 +14,18 @@ const createTestFolder = (root, callback) => {
     fs.stat(root, (err) => {
         if (err && err.code === "ENOENT") {
             // Folder don't exist
-            fs.mkdir(root, (err) => {
-                if (err) {
-                    callback(err);
+            fs.mkdir(root, (err_) => {
+                if (err_) {
+                    callback(err_);
                 } else {
                     callback();
                 }
             });
         } else {
             // Clear the content of the folder, just in case
-            rimraf(path.join(root, "*"), (err) => {
-                if (err) {
-                    callback(err);
+            rimraf(path.join(root, "*"), (err_) => {
+                if (err_) {
+                    callback(err_);
                 } else {
                     callback();
                 }
@@ -50,7 +50,7 @@ const deleteTestFolder = (path, callback) => {
     });
 };
 
-module.exports = {
+export {
     createTestFolder,
     deleteTestFolder
 };

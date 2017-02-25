@@ -37,35 +37,56 @@
     "ignore": "^3.1.2",
     "progress": "^1.1.8",
     "request": "^2.72.0",
-    "semver": "^5.3.0",
-    "typescript": "^2.2.1"
+    "semver": "^5.3.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
     "coveralls": "^2.11.14",
-    "eslint": "^3.6.0",
     "fs-extra": "^2.0.0",
-    "istanbul": "^0.4.3",
+    "istanbul": "^1.1.0-alpha.1",
     "jsdoc": "^3.4.0",
-    "minami": "^1.1.1",
     "mocha": "^3.0.0",
+    "nyc": "^10.0.0",
     "rimraf": "^2.5.2",
     "tslint": "^4.4.2",
-    "typescript": "~2.1.5",
+    "ts-node": "^2.0.0",
+    "typescript": "^2.2.1",
     "typings": "^2.1.0"
   },
   "scripts": {
-    "coverage": "istanbul cover node_modules/mocha/bin/_mocha -R ./test/unit/*.test.js",
-    "coveralls": "istanbul cover node_modules/mocha/bin/_mocha -R ./test/unit/*.test.js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-    "jsDoc": "jsdoc --configure .jsdoc.json --verbose",
+    "buildDeploy": "typings install && rimraf lib/* && tsc --sourceMap false",
+    "coverage": "nyc npm run test:unit",
+    "coveralls": "nyc report --reporter=text-lcov npm run test:unit | coveralls",
     "lint": "tslint --project tsconfig.json",
-    "lintTest": "eslint test/",
-    "lintAllFix": "tslint --project tsconfig.json --fix & eslint test/ --fix",
-    "test": "npm run lint & npm run lintTest & npm run unit",
-    "unit": "mocha -R spec test/unit/*.test.js",
-    "e2e": "mocha -R spec test/e2e/*.test.js"
+    "lint:Tests": "tslint --project tsconfig.json test/**/*.test.ts",
+    "lint:Fix": "tslint --project tsconfig.json --fix",
+    "prepublish": "npm run buildDeploy",
+    "test": "npm run buildDeploy && npm run lint && npm run test:e2e && npm run coverage",
+    "test:unit": "mocha --compilers ts:ts-node/register --bail test/unit/*.test.ts",
+    "test:e2e": "mocha --compilers ts:ts-node/register --bail test/e2e/*.test.ts"
   },
   "engines": {
     "node": ">=4"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "node_modules/",
+      "dist/"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text-summary",
+      "html"
+    ],
+    "sourceMap": true,
+    "instrument": true
   }
 }

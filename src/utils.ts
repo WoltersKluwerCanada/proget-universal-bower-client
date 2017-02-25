@@ -89,7 +89,7 @@ const parseIgnoreFile = (filePath: string, omittedFiles): Promise<any> => {
 /**
  * Create a ignore object with the files to ignore
  */
-const getIgnoredData = (from: string, callback: Callback): void => {
+const getIgnoredData = (from: string, callback: (err: Error | null, data: Ignore | null) => void): void => {
     const omittedFiles: Ignore = ignore();
 
     // Add basic ignores
@@ -130,7 +130,7 @@ const getBowerContent = (from: string): Promise<any> => {
         let content;
 
         promises.push(new Promise((_resolve: Function, _reject: Function) => {
-            getIgnoredData(from, (err?: Error, data?: string[]) => {
+            getIgnoredData(from, (err?: Error, data?: Ignore) => {
                 if (err) {
                     _reject(err);
                 } else {
@@ -167,7 +167,7 @@ const getBowerContent = (from: string): Promise<any> => {
  */
 const getNpmRc = (callback: Callback): void => {
     const npmRcFilePath = ((): string => {
-        if (process.env["NODE_ENV"] !== "test") {
+        if (process.env.NODE_ENV !== "test") {
             return path.join(os.homedir(), ".npmrc");
         } else {
             return path.join(__dirname, "..", "test/data/.npmrc");

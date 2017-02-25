@@ -3,22 +3,21 @@
 // Set test environment
 process.env.NODE_ENV = "test";
 
-const chai = require("chai");
-const expect = chai.expect;
-const exec = require("child_process").exec;
-const path = require("path");
+import {expect} from "chai";
+import {exec} from "child_process";
+import * as fs from "fs-extra";
+import * as path from "path";
 
-const pkg = require("../../package.json");
+const pkg = fs.readJsonSync("../../package.json");
+const cliPath = path.join(__dirname, "..", "..", "lib", "src", "index");
 
-const cliPath = path.join(__dirname, "..", "..", "lib", "index");
-
-describe("version", function () {
+describe("version", function() {
     let res1;
     let res2;
     let res3;
     let res4;
 
-    it("no other parameter", function (done) {
+    it("no other parameter", function(done) {
         exec(`node ${cliPath} --version`, (err, result) => {
             res1 = result;
 
@@ -32,7 +31,7 @@ describe("version", function () {
         });
     });
 
-    it("with other parameter", function (done) {
+    it("with other parameter", function(done) {
         exec(`node ${cliPath} --version -p .`, (err, result) => {
             res2 = result;
 
@@ -46,7 +45,7 @@ describe("version", function () {
         });
     });
 
-    it("with force parameter", function (done) {
+    it("with force parameter", function(done) {
         exec(`node ${cliPath} --version --force`, (err, result) => {
             res3 = result;
 
@@ -60,7 +59,7 @@ describe("version", function () {
         });
     });
 
-    it("short parameter", function (done) {
+    it("short parameter", function(done) {
         exec(`node ${cliPath} -v`, (err, result) => {
             res4 = result;
 
@@ -75,7 +74,7 @@ describe("version", function () {
     });
 
     // This command must return the same value each times.
-    after(function () {
+    after(function() {
         expect(res1).eql(res2);
         expect(res1).eql(res3);
         expect(res1).eql(res4);

@@ -3,31 +3,29 @@
 // Set test environment
 process.env.NODE_ENV = "test";
 
-const chai = require("chai");
-const expect = chai.expect;
-const fs = require("fs");
-const path = require("path");
-
-const pack = require("../../lib/pack").default;
-const share = require("../data/share");
+import {expect} from "chai";
+import * as fs from "fs";
+import * as path from "path";
+import pack from "../../src/pack";
+import {createTestFolder, deleteTestFolder} from "../data/share";
 
 describe("pack", function() {
     const testFolder = path.join(__dirname, "..", "data", "pack");
     const srcFolder = path.join(__dirname, "..", "data", "bowerPkgExample");
 
     before(function(done) {
-        share.createTestFolder(testFolder, done);
+        createTestFolder(testFolder, done);
     });
 
     it("first creation", function(done) {
-        pack(srcFolder, testFolder, false, (err, data) => {
+        pack(srcFolder, testFolder, false, (err: Error | null, data: string | null) => {
             try {
                 expect(err).to.be.null;
 
                 expect(data).to.have.string(testFolder);
 
-                fs.stat(data, (err) => {
-                    done(err);
+                fs.stat(data, (err_) => {
+                    done(err_);
                 });
             } catch (e) {
                 done(e);
@@ -36,14 +34,14 @@ describe("pack", function() {
     });
 
     it("overwrite", function(done) {
-        pack(srcFolder, testFolder, true, (err, data) => {
+        pack(srcFolder, testFolder, true, (err: Error | null, data: string | null) => {
             try {
                 expect(err).to.be.null;
 
                 expect(data).to.have.string(testFolder);
 
-                fs.stat(data, (err) => {
-                    done(err);
+                fs.stat(data, (err_) => {
+                    done(err_);
                 });
             } catch (e) {
                 done(e);
@@ -52,6 +50,6 @@ describe("pack", function() {
     });
 
     after(function(done) {
-        share.deleteTestFolder(testFolder, done);
+        deleteTestFolder(testFolder, done);
     });
 });
