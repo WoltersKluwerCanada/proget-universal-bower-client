@@ -8,7 +8,7 @@ const expect = chai.expect;
 const exec = require("child_process").exec;
 const path = require("path");
 
-const cliPath = path.join(__dirname, "..", "..", "bin", "proget-universal-bower-client");
+const cliPath = path.join(__dirname, "..", "..", "lib", "index");
 
 describe("help", function () {
     let res1;
@@ -23,7 +23,7 @@ describe("help", function () {
             if (err) {
                 done(err);
             } else {
-                expect(result).contain("Usage: proget-universal-bower-client [options]");
+                expect(result).contain("Usage: index [options]");
                 expect(result).contain("Options:");
                 expect(result).contain("-h, --help                   output usage information");
 
@@ -39,7 +39,7 @@ describe("help", function () {
             if (err) {
                 done(err);
             } else {
-                expect(result).contain("Usage: proget-universal-bower-client [options]");
+                expect(result).contain("Usage: index [options]");
                 expect(result).contain("Options:");
                 expect(result).contain("-h, --help                   output usage information");
 
@@ -55,7 +55,7 @@ describe("help", function () {
             if (err) {
                 done(err);
             } else {
-                expect(result).contain("Usage: proget-universal-bower-client [options]");
+                expect(result).contain("Usage: index [options]");
                 expect(result).contain("Options:");
                 expect(result).contain("-h, --help                   output usage information");
 
@@ -71,7 +71,7 @@ describe("help", function () {
             if (err) {
                 done(err);
             } else {
-                expect(result).contain("Usage: proget-universal-bower-client [options]");
+                expect(result).contain("Usage: index [options]");
                 expect(result).contain("Options:");
                 expect(result).contain("-h, --help                   output usage information");
 

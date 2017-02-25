@@ -1,0 +1,13 @@
+{
+  "globalDependencies": {
+    "mocha": "registry:env/mocha#2.2.5+20160926180742",
+    "node": "registry:env/node#6.0.0+20170213133316"
+  },
+  "dependencies": {
+    "colors": "registry:dt/colors#1.1.0+20161228000716",
+    "commander": "registry:dt/commander#2.3.0+20161118092844",
+    "progress": "registry:dt/progress#1.1.8+20160915014424",
+    "request": "registry:npm/request#2.69.0+20160428223725",
+    "semver": "registry:npm/semver#5.0.0+20160723033700"
+  }
+}

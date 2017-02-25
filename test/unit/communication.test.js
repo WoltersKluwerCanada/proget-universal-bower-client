@@ -7,7 +7,7 @@ const path = require("path");
 const srv = require("../server/server");
 const server = new srv();
 
-const communication = require("../../lib/communication");
+const communication = require("../../lib/communication").default;
 
 describe("communication", function() {
     const pkgFolder = path.join(__dirname, "..", "data", "pkg.upack");

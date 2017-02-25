@@ -10,7 +10,7 @@ const path = require("path");
 
 const pkg = require("../../package.json");
 
-const cliPath = path.join(__dirname, "..", "..", "bin", "proget-universal-bower-client");
+const cliPath = path.join(__dirname, "..", "..", "lib", "index");
 
 describe("version", function () {
     let res1;

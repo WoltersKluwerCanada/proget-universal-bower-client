@@ -7,7 +7,7 @@ const exec = require("child_process").exec;
 const path = require("path");
 const fs = require("fs-extra");
 
-const cliPath = path.join(__dirname, "..", "..", "bin", "proget-universal-bower-client");
+const cliPath = path.join(__dirname, "..", "..", "lib", "index");
 
 describe("package", function () {
     const testFolder = path.join(__dirname, "..", "data", "package");

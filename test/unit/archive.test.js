@@ -8,7 +8,7 @@ const glob = require("glob");
 const fs = require("fs");
 const share = require("../data/share");
 
-const archive = require("../../lib/archive");
+const archive = require("../../lib/archive").default;
 
 describe("archive", function() {
     const testFolder = path.join(__dirname, "..", "data", "archive");

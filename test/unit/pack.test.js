@@ -8,7 +8,7 @@ const expect = chai.expect;
 const fs = require("fs");
 const path = require("path");
 
-const pack = require("../../lib/pack");
+const pack = require("../../lib/pack").default;
 const share = require("../data/share");
 
 describe("pack", function() {

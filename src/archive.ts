@@ -1,27 +1,37 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const child_process_1 = require("child_process");
-const fs = require("fs");
-const path = require("path");
-const ProgressBar = require("progress");
-const createError_1 = require("./createError");
-const partitionCmd = (base, additions, maxLength) => {
+
+import {exec} from "child_process";
+import * as fs from "fs";
+import * as path from "path";
+import * as ProgressBar from "progress";
+import createError from "./createError";
+import ErrorN from "./ErrorN";
+
+const partitionCmd = (base: string, additions: string[], maxLength: Number): string[] => {
     const out = [];
     let temp = base;
+
     for (const addition of additions) {
         const _temp = `${temp} "${addition}"`;
+
         if (_temp.length > maxLength) {
             out.push(temp);
             temp = `${base} "${addition}"`;
-        }
-        else {
+        } else {
             temp = _temp;
         }
     }
+
+    // Add the last part
     out.push(temp);
+
     return out;
 };
-const zip = (cmd, cwd, callback) => {
+
+/**
+ * Compress a folder content to a .upack package
+ */
+const zip = (cmd: string[], cwd: string, callback: ErrOnlyCallback): void => {
     let position = 0;
     const bar = new ProgressBar("  Compressing [:bar] :percent", {
         complete: "█",
@@ -29,74 +39,87 @@ const zip = (cmd, cwd, callback) => {
         total: cmd.length,
         width: 20
     });
+
     const zipNext = () => {
         if (position < cmd.length) {
-            child_process_1.exec(cmd[position], { cwd }, (err) => {
+            exec(cmd[position], {cwd}, (err) => {
                 if (err) {
                     callback(err);
-                }
-                else {
+                } else {
                     bar.tick(null, null);
                     ++position;
                     zipNext();
                 }
             });
-        }
-        else {
+        } else {
+            // Last bar tick
             bar.tick(null, null);
+
             callback(null);
         }
     };
+
     zipNext();
 };
-const zipAll = (dest, files, cwd, callback) => {
-    const tempName = (() => {
+
+/**
+ * Compress a folder content to a .upack package
+ */
+const zipAll = (dest: string, files: string[], cwd: string, callback: Callback): void => {
+    const tempName = ((): string => {
         return /^win/.test(process.platform) ? "~pubc_tmp.zip" : ".pubc_tmp.zip";
     })();
     const tempPath = path.join(cwd, tempName);
+
+    // Delete the temp zip file from the list if there
     const zipFilePosition = files.indexOf(tempName);
     if (zipFilePosition !== -1) {
         files.splice(zipFilePosition, 1);
     }
+
     const cmd = partitionCmd(`7z a "${tempPath}"`, files, 4000);
-    zip(cmd, cwd, (err) => {
+
+    zip(cmd, cwd, (err?: Error) => {
         if (err) {
             callback(err, null);
-        }
-        else {
-            fs.rename(tempPath, dest, (err_) => {
+        } else {
+            fs.rename(tempPath, dest, (err_?: ErrorN) => {
                 if (err_) {
                     if (err_.code === "ENOENT") {
+                        // Delete the archive
                         fs.unlink(tempPath, () => {
                             callback(err_, null);
                         });
-                    }
-                    else {
+                    } else {
                         callback(err_, null);
                     }
-                }
-                else {
+                } else {
                     callback(null, dest);
                 }
             });
         }
     });
 };
-const archive = (destination, files, cwd, force, callback) => {
+
+/**
+ * Create a zip archive
+ */
+const archive = (destination: string, files: string[], cwd: string, force: boolean, callback: Callback): void => {
     force = force || false;
+
     files = files.map((el) => {
         return path.normalize(el);
     });
-    fs.stat(destination, (err) => {
+
+    fs.stat(destination, (err?: Error) => {
         if (!err && !force) {
-            callback(createError_1.default(`The archive ${destination} already exist.`, "EEXIST"), null);
-        }
-        else {
-            zipAll(destination, files, cwd, (err_, data) => {
+            callback(createError(`The archive ${destination} already exist.`, "EEXIST"), null);
+        } else {
+            zipAll(destination, files, cwd, (err_?: ErrorN, data?: string) => {
                 callback(err_, data);
             });
         }
     });
 };
-exports.default = archive;
-//# sourceMappingURL=archive.js.map
+
+export default archive;

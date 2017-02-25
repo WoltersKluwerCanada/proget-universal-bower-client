@@ -9,7 +9,7 @@ const path = require("path");
 const srv = require("../server/server");
 const server = new srv();
 
-const push = require("../../lib/push");
+const push = require("../../lib/push").default;
 
 describe("push", function() {
     const testFolder = path.join(__dirname, "..", "data", "bowerPkgExample");

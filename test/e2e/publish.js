@@ -13,7 +13,7 @@ const server = new srv();
 
 const fileName = "pkg.0.0.0.upack";
 
-const cliPath = path.join(__dirname, "..", "..", "bin", "proget-universal-bower-client");
+const cliPath = path.join(__dirname, "..", "..", "lib", "index");
 
 describe("push", function () {
     const testFolder = path.join(__dirname, "..", "data", "push");

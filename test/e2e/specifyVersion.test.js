@@ -11,7 +11,7 @@ const path = require("path");
 const srv = require("../server/server");
 const server = new srv();
 
-const cliPath = path.join(__dirname, "..", "..", "bin", "proget-universal-bower-client");
+const cliPath = path.join(__dirname, "..", "..", "lib", "index");
 
 describe("Version", function() {
     const testFolder = path.join(__dirname, "..", "data", "specifyVersion");
