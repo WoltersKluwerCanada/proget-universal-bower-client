@@ -1,14 +1,14 @@
 "use strict";
 
 // Set test environment
-process.env.NODE_ENV = "test";
+process.env.TEST_FOLDER_PUBC = `${__dirname}/../`;
 
 import {expect} from "chai";
 import {exec} from "child_process";
 import * as fs from "fs-extra";
 import * as path from "path";
 
-const pkg = fs.readJsonSync("../../package.json");
+const pkg = fs.readJsonSync(path.join(__dirname, "../../package.json"));
 const cliPath = path.join(__dirname, "..", "..", "lib", "src", "index");
 
 describe("version", function() {

@@ -167,10 +167,10 @@ const getBowerContent = (from: string): Promise<any> => {
  */
 const getNpmRc = (callback: Callback): void => {
     const npmRcFilePath = ((): string => {
-        if (process.env.NODE_ENV !== "test") {
-            return path.join(os.homedir(), ".npmrc");
+        if (process.env.TEST_FOLDER_PUBC) {
+            return path.join(process.env.TEST_FOLDER_PUBC, "data", ".npmrc");
         } else {
-            return path.join(__dirname, "..", "test/data/.npmrc");
+            return path.join(os.homedir(), ".npmrc");
         }
     })();
 

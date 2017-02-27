@@ -1,7 +1,7 @@
 "use strict";
 
 // Set test environment
-process.env.NODE_ENV = "test";
+process.env.TEST_FOLDER_PUBC = `${__dirname}/../`;
 
 import {expect} from "chai";
 import {exec} from "child_process";
