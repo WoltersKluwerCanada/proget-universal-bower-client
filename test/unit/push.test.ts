@@ -1,8 +1,5 @@
 "use strict";
 
-// Set test environment
-process.env.TEST_FOLDER_PUBC = `${__dirname}/../`;
-
 import {expect} from "chai";
 import * as path from "path";
 import ErrorN from "../../src/ErrorN";
@@ -18,6 +15,19 @@ describe("push", function() {
         server.startServer(done);
     });
 
+    it("use cache for password", function(done) {
+        push(
+            path.join(testFolder, "..", "bowerPkgExample3", "pkg.upack"),
+            `http://localhost:${server.port}/upack/testFeed`,
+            null,
+            (err?: ErrorN) => {
+                expect(err).to.be.null;
+
+                done();
+            }
+        );
+    });
+
     it("without destination", function(done) {
         push(path.join(testFolder, "..", "data", "pkg.upack"), "", null, (err) => {
             expect(err).not.to.be.null;
@@ -31,7 +41,7 @@ describe("push", function() {
             path.join(testFolder, "..", "pkg.upack"),
             `http://localhost:${server.port}/upack/testFeed`,
             null,
-            (err: ErrorN | null) => {
+            (err?: ErrorN) => {
                 expect(err).to.be.null;
 
                 done();
@@ -39,31 +49,7 @@ describe("push", function() {
         );
     });
 
-    it("wrong password", function(done) {
-        process.env.TEST_FOLDER_PUBC = null;
-        push(
-            path.join(testFolder, "..", "pkg.upack"),
-            `http://localhost:${server.port}/upack/testFeed`,
-            null,
-            (err: ErrorN | null) => {
-                // This need to be before the expect in case an error happen
-                process.env.TEST_FOLDER_PUBC = `${__dirname}/../`;
-
-                expect(err).not.to.be.null;
-
-                if (err.code === "EHTTP") {
-                    // A system with a npm user
-                    expect(JSON.parse(err.details).statusCode).equal(403);
-                    done();
-                } else if (err.code === "ENOENT") {
-                    // A system without a npm user
-                    done();
-                } else {
-                    done(`None of the expected error messages (EHTTP or ENODATA) were returned. Receive: ${err.code}`);
-                }
-            }
-        );
-    });
+    // TODO Create a test for a wrong password
 
     after(function(done) {
         server.stopServer(done);

@@ -1,8 +1,5 @@
 "use strict";
 
-// Set test environment
-process.env.TEST_FOLDER_PUBC = `${__dirname}/../`;
-
 import {expect} from "chai";
 import * as fs from "fs";
 import * as glob from "glob";
@@ -12,7 +9,6 @@ import {
     getBowerContent,
     getFolderContent,
     getIgnoredData,
-    getNpmCredentials,
     readJsonFromFile
 } from "../../src/utils";
 
@@ -127,20 +123,6 @@ describe("utils", function() {
                 done(err);
             }
         );
-    });
-
-    it("getNpmCredentials", function(done) {
-        getNpmCredentials((err, data: {pass: string[], usr: string[]}) => {
-            expect(err).to.be.null;
-
-            expect(data).to.include.keys("pass");
-            expect(data).to.include.keys("usr");
-
-            expect(data.pass.length).to.be.at.least(1);
-            expect(data.usr.length).to.be.at.least(1);
-
-            done();
-        });
     });
 
     it("readJsonFromFile", function(done) {

@@ -3,20 +3,8 @@
 import * as fs from "fs";
 import * as glob from "glob";
 import * as ignore from "ignore";
-import * as os from "os";
 import * as path from "path";
 import createError from "./createError";
-
-const regex = {
-    npmPassword: {
-        header: /\/\/.*:_password=/,
-        line: /\/\/.*:_password=.*/
-    },
-    npmUsername: {
-        header: /\/\/.*:username=/,
-        line: /\/\/.*:username=.*/
-    }
-};
 
 /**
  * Pretty stringify JSON
@@ -124,12 +112,12 @@ const getFolderContent = (from: string, callback: Callback): void => {
  * List the content to add to the Bower archive
  */
 const getBowerContent = (from: string): Promise<any> => {
-    return new Promise((resolve: Function, reject: Function) => {
+    return new Promise((resolve: (data: Ignore) => void, reject: (err: Error) => void) => {
         const promises = [];
         let toIgnore;
         let content;
 
-        promises.push(new Promise((_resolve: Function, _reject: Function) => {
+        promises.push(new Promise((_resolve: () => void, _reject: (err: Error) => void) => {
             getIgnoredData(from, (err?: Error, data?: Ignore) => {
                 if (err) {
                     _reject(err);
@@ -140,7 +128,7 @@ const getBowerContent = (from: string): Promise<any> => {
             });
         }));
 
-        promises.push(new Promise((_resolve: Function, _reject: Function) => {
+        promises.push(new Promise((_resolve: () => void, _reject: (err: Error) => void) => {
             getFolderContent(from, (err?: Error, data?: string[]) => {
                 if (err) {
                     _reject(err);
@@ -159,60 +147,6 @@ const getBowerContent = (from: string): Promise<any> => {
                 reject(err);
             }
         );
-    });
-};
-
-/**
- * Read the .npmrc file from the user home folder
- */
-const getNpmRc = (callback: Callback): void => {
-    const npmRcFilePath = ((): string => {
-        if (process.env.TEST_FOLDER_PUBC) {
-            return path.join(process.env.TEST_FOLDER_PUBC, "data", ".npmrc");
-        } else {
-            return path.join(os.homedir(), ".npmrc");
-        }
-    })();
-
-    fs.stat(npmRcFilePath, (err?: Error) => {
-        if (err) {
-            callback(err, null);
-        } else {
-            fs.readFile(npmRcFilePath, "utf8", (err_?: Error, data?: string) => {
-                callback(err_, data);
-            });
-        }
-    });
-};
-
-/**
- * Read the credentials from the user .npmrc file
- */
-const getNpmCredentials = (callback: Callback): void => {
-    getNpmRc((err?: Error, data?: string) => {
-        const errMsg = createError(
-            "Missing username or password in .npmrc; Please execute 'npm adduser' command",
-            "ENODATA"
-        );
-
-        if (err) {
-            callback(err, null);
-        } else {
-            try {
-                const pass = regex.npmPassword.line.exec(data).toString()
-                    .replace(regex.npmPassword.header, "").replace(/"/g, "");
-                const usr = regex.npmUsername.line.exec(data).toString()
-                    .replace(regex.npmUsername.header, "").replace(/"/g, "");
-
-                if (pass.length > 0 && usr.length > 0) {
-                    callback(null, {usr, pass});
-                } else {
-                    callback(errMsg, null);
-                }
-            } catch (e) {
-                callback(errMsg, null);
-            }
-        }
     });
 };
 
@@ -333,7 +267,6 @@ export {
     getIgnoredData,
     getFolderContent,
     getBowerContent,
-    getNpmCredentials,
     readJsonFromFile,
     createUpackJson,
     updateVersionBowerJson,

@@ -1,8 +1,5 @@
 "use strict";
 
-// Set test environment
-process.env.TEST_FOLDER_PUBC = `${__dirname}/../`;
-
 import * as fs from "fs";
 import * as glob from "glob";
 import * as path from "path";

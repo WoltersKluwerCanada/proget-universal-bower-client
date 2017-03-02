@@ -7,7 +7,7 @@ import * as ProgressBar from "progress";
 import createError from "./createError";
 import ErrorN from "./ErrorN";
 
-const partitionCmd = (base: string, additions: string[], maxLength: Number): string[] => {
+const partitionCmd = (base: string, additions: string[], maxLength: number): string[] => {
     const out = [];
     let temp = base;
 

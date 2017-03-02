@@ -1,8 +1,5 @@
 "use strict";
 
-// Set test environment
-process.env.TEST_FOLDER_PUBC = `${__dirname}/../`;
-
 import * as path from "path";
 import communication from "../../src/communication";
 import Server from "../server/server";
@@ -20,7 +17,7 @@ describe("communication", function() {
         // TODO create a fake server here because now we testing on the real one
         communication(pkgFolder,
             `http://localhost:${server.port}/upack/testFeed/upload`,
-            "testUser", new Buffer("testP4ssw0rd").toString("base64"),
+            {username: "testUser", password: "testP4ssw0rd"},
             (err) => {
                 done(err);
             }
