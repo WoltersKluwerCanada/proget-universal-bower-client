@@ -10,7 +10,7 @@ import main from "./main";
  */
 const parsePath = (element?: string): string => {
     if (element) {
-        element = element.replace(/^"/, "").replace(/"$/, "");
+        element = element.replace(/^(?:(?:'(.*)')|(?:"(.*)"))$/, "$1$2");
 
         if (path.isAbsolute(element)) {
             return element;

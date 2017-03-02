@@ -47,7 +47,10 @@ class Server {
     public router(request, response) {
         const auth = Server.extractUserPassword(request);
 
-        if (auth.user === "testUser" && auth.password === "testP4ssw0rd") {
+        if (request.url === "/upack/unableToAuth/upload") {
+            response.writeHead(401, header);
+            response.end("Unauthorized access!");
+        } else if (auth.user === "testUser" && auth.password === "testP4ssw0rd") {
             if (request.method === "POST" && request.url === "/upack/testFeed/upload") {
                 instance.responseToUpload(request, response);
             } else {
@@ -56,7 +59,7 @@ class Server {
             }
         } else {
             response.writeHead(403, header);
-            response.end("Unauthorized access!");
+            response.end("Forbidden access!");
         }
     }
 

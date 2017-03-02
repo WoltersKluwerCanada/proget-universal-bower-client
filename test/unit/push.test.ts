@@ -49,7 +49,19 @@ describe("push", function() {
         );
     });
 
-    // TODO Create a test for a wrong password
+    it("with wrong password", function(done) {
+        push(
+            path.join(testFolder, "..", "pkg.upack"),
+            `http://localhost:${server.port}/upack/unableToAuth`,
+            null,
+            (err?: ErrorN) => {
+                expect(err.code).equal("EHTTP");
+                expect(JSON.parse(err.details).statusCode).equal(401);
+
+                done();
+            }
+        );
+    });
 
     after(function(done) {
         server.stopServer(done);
