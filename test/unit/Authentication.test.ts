@@ -11,7 +11,7 @@ describe("Authentication", function() {
         try {
             const auth = Authentication.getInstance();
 
-            auth.cwd = path.join(__dirname, "..", "data");
+            auth.addPossibleConfigFolder(path.join(__dirname, "..", "data"));
 
             expect(auth.getCredentialsByURI("http://localhost/npm/"))
                 .eql({password: "testP4ssw0rd", username: "testUser"});

@@ -8,12 +8,14 @@ import * as path from "path";
 import Server from "../server/server";
 
 const server = new Server();
-const cliPath = path.join(__dirname, "..", "..", "lib", "src", "index");
+const cliPath = path.join(__dirname, "..", "..", "bin", "main");
 const testServerAdr = `http://localhost:${server.port}/upack/testFeed`;
 
 describe("deploy", function() {
-    const testFolder = path.join(__dirname, "..", "..", "test", "data", "deploy");
-    const dataFolder = path.join(__dirname, "..", "..", "test", "data", "bowerPkgExample");
+    const testFolder = path.join(__dirname, "..", "data", "deploy");
+    const dataFolder = path.join(__dirname, "..", "data", "bowerPkgExample");
+    const npmrcSource = path.join(__dirname, "..", "data", ".npmrc");
+    const npmrcDestination = path.join(testFolder, ".npmrc");
 
     before(function(done) {
         fs.remove(testFolder, (err) => {
@@ -27,7 +29,13 @@ describe("deploy", function() {
 
     beforeEach(function(done) {
         fs.copy(dataFolder, testFolder, (err) => {
-            done(err);
+            if (err) {
+                done(err);
+            } else {
+                fs.copy(npmrcSource, npmrcDestination, (err_) => {
+                    done(err_);
+                });
+            }
         });
     });
 

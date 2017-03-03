@@ -3,6 +3,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import archive from "./archive";
+import Authentication from "./Authentication";
 import createError from "./createError";
 import ErrorN from "./ErrorN";
 import {createUpackJson, getBowerContent} from "./utils";
@@ -14,6 +15,9 @@ const pack = (from: string, to: string, force: boolean, callback: Callback): voi
     let upackPath;
     let upackJsonFile;
     let filesToPack;
+
+    // Update the location to get the local .npmrc
+    Authentication.getInstance().addPossibleConfigFolder(from);
 
     const promises = [
         createUpackJson(from).then(

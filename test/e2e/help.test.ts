@@ -4,7 +4,7 @@ import {expect} from "chai";
 import {exec} from "child_process";
 import * as path from "path";
 
-const cliPath = path.join(__dirname, "..", "..", "lib", "src", "index");
+const cliPath = path.join(__dirname, "..", "..", "bin", "main");
 
 describe("help", function() {
     let res1;
@@ -19,7 +19,7 @@ describe("help", function() {
             if (err) {
                 done(err);
             } else {
-                expect(result).contain("Usage: index [options]");
+                expect(result).contain("Usage: main [options]");
                 expect(result).contain("Options:");
                 expect(result).contain("-h, --help                   output usage information");
 
@@ -35,7 +35,7 @@ describe("help", function() {
             if (err) {
                 done(err);
             } else {
-                expect(result).contain("Usage: index [options]");
+                expect(result).contain("Usage: main [options]");
                 expect(result).contain("Options:");
                 expect(result).contain("-h, --help                   output usage information");
 
@@ -51,7 +51,7 @@ describe("help", function() {
             if (err) {
                 done(err);
             } else {
-                expect(result).contain("Usage: index [options]");
+                expect(result).contain("Usage: main [options]");
                 expect(result).contain("Options:");
                 expect(result).contain("-h, --help                   output usage information");
 
@@ -67,7 +67,7 @@ describe("help", function() {
             if (err) {
                 done(err);
             } else {
-                expect(result).contain("Usage: index [options]");
+                expect(result).contain("Usage: main [options]");
                 expect(result).contain("Options:");
                 expect(result).contain("-h, --help                   output usage information");
 

@@ -6,7 +6,7 @@ import * as fs from "fs-extra";
 import * as path from "path";
 
 const pkg = fs.readJsonSync(path.join(__dirname, "../../package.json"));
-const cliPath = path.join(__dirname, "..", "..", "lib", "src", "index");
+const cliPath = path.join(__dirname, "..", "..", "bin", "main");
 
 describe("version", function() {
     let res1;

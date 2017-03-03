@@ -3,16 +3,19 @@
 import {expect} from "chai";
 import {exec} from "child_process";
 import * as fs from "fs-extra";
+import * as os from "os";
 import * as path from "path";
 import Server from "../server/server";
 
 const server = new Server();
-const cliPath = path.join(__dirname, "..", "..", "lib", "src", "index");
+const cliPath = path.join(__dirname, "..", "..", "bin", "main");
 const testServerAdr = `http://localhost:${server.port}/upack/testFeed`;
 
 describe("Version", function() {
-    const testFolder = path.join(__dirname, "..", "data", "specifyVersion");
+    const testFolder = path.join(__dirname, "..", "data", "deploy");
     const dataFolder = path.join(__dirname, "..", "data", "bowerPkgExample");
+    const npmrcSource = path.join(__dirname, "..", "data", ".npmrc");
+    const npmrcDestination = path.join(testFolder, ".npmrc");
 
     before(function(done) {
         fs.remove(testFolder, (err) => {
@@ -26,7 +29,13 @@ describe("Version", function() {
 
     beforeEach(function(done) {
         fs.copy(dataFolder, testFolder, (err) => {
-            done(err);
+            if (err) {
+                done(err);
+            } else {
+                fs.copy(npmrcSource, npmrcDestination, (err_) => {
+                    done(err_);
+                });
+            }
         });
     });
 
@@ -64,8 +73,10 @@ describe("Version", function() {
     });
 
     afterEach(function(done) {
-        fs.remove(testFolder, (err) => {
-            done(err);
+        fs.remove(testFolder, () => {
+            fs.remove(path.join(os.homedir(), "test-packBower.0.0.0.upack"), (err) => {
+                done(err);
+            });
         });
     });
 

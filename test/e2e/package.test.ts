@@ -4,7 +4,7 @@ import {exec} from "child_process";
 import * as fs from "fs-extra";
 import * as path from "path";
 
-const cliPath = path.join(__dirname, "..", "..", "lib", "src", "index");
+const cliPath = path.join(__dirname, "..", "..", "bin", "main");
 
 describe("package", function() {
     const testFolder = path.join(__dirname, "..", "data", "package");

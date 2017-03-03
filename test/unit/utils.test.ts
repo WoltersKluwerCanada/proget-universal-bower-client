@@ -4,13 +4,7 @@ import {expect} from "chai";
 import * as fs from "fs";
 import * as glob from "glob";
 import * as path from "path";
-import {
-    createUpackJson,
-    getBowerContent,
-    getFolderContent,
-    getIgnoredData,
-    readJsonFromFile
-} from "../../src/utils";
+import {createUpackJson, getBowerContent, getFolderContent, getIgnoredData, readJsonFromFile} from "../../src/utils";
 
 describe("utils", function() {
     const testFolder = path.join(__dirname, "..", "data", "bowerPkgExample");

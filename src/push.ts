@@ -1,6 +1,7 @@
 "use strict";
 
 import * as fs from "fs";
+import * as path from "path";
 import Authentication from "./Authentication";
 import communication from "./communication";
 import createError from "./createError";
@@ -10,6 +11,9 @@ import createError from "./createError";
  */
 const push = (from: string, to: string, deploy: string|null, callback: ErrOnlyCallback): void => {
     to = `${to}/upload`;
+
+    // Update the location to get the local .npmrc
+    Authentication.getInstance().addPossibleConfigFolder(path.dirname(from));
 
     fs.stat(from, (err?: Error) => {
         if (err) {
