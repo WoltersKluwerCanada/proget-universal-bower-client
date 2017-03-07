@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.3.0 - 2017-03-xx
+## v0.3.0 - 2017-03-07
 
 - Add: Support redirection.
 - Fix: Support of using `'` and `"` when specifying path using CLI.
