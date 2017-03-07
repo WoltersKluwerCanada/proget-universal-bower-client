@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.3.0 - 2017-03-xx
+
+- Add: Support redirection.
+- Fix: Support of using `'` and `"` when specifying path using CLI.
+- Internally: Use the same authentication module as `proget-universla-bower-resolver`;
+- Internally: Convert the source code to TypeScript. 
+
 ## v0.2.4 - 2016-12-19
 
 - Remove: Since our resolver `proget-universal-bower-resolver` stop support user to supply `group`, we remove this from the packager too.

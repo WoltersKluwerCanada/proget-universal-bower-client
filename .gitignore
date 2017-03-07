@@ -8,3 +8,6 @@
 /npm-debug.log
 /docs/
 *.tgz
+/typings/
+/lib/
+/.nyc_output/
