@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.4.0 - 2017-04-xx
+## v0.4.0 - 2017-04-06
 
 - Add: Now you can `push` package specifying a glob star (`*`).
 
