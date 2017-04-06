@@ -17,15 +17,15 @@ const prettyJsonStringify = (data: {}): string => {
  * Write in a file
  */
 const writeFile = (filePath: string, replaceExist: boolean, content: string, callback: ErrOnlyCallback): void => {
-    fs.stat(filePath, (err?: Error) => {
+    fs.stat(filePath, (err?: Error): void => {
         // If the file exist and replaceExist
         if (err) {
-            fs.writeFile(filePath, content, (err_?: Error) => {
+            fs.writeFile(filePath, content, (err_?: Error): void => {
                 callback(err_);
             });
         } else {
             if (replaceExist) {
-                fs.writeFile(filePath, content, (err__?: Error) => {
+                fs.writeFile(filePath, content, (err__?: Error): void => {
                     callback(err__);
                 });
             } else {
@@ -39,7 +39,7 @@ const writeFile = (filePath: string, replaceExist: boolean, content: string, cal
  * Validate that a file exist before return his content
  */
 const readFile = (filePath: string, ignoreENOENT: boolean, callback: Callback): void => {
-    fs.stat(filePath, (err?: Error) => {
+    fs.stat(filePath, (err?: Error): void => {
         if (err) {
             if (ignoreENOENT) {
                 callback(null, null);
@@ -47,7 +47,7 @@ const readFile = (filePath: string, ignoreENOENT: boolean, callback: Callback): 
                 callback(err, null);
             }
         } else {
-            fs.readFile(filePath, "utf8", (err_?: Error, data?: string) => {
+            fs.readFile(filePath, "utf8", (err_?: Error, data?: string): void => {
                 callback(err_, data);
             });
         }
@@ -58,15 +58,15 @@ const readFile = (filePath: string, ignoreENOENT: boolean, callback: Callback): 
  * Read a file and pass it to the ignore module
  */
 const parseIgnoreFile = (filePath: string, omittedFiles): Promise<any> => {
-    return new Promise((resolve, reject) => {
-        readFile(filePath, true, (err?: Error, data?: string) => {
+    return new Promise((resolve, reject): void => {
+        readFile(filePath, true, (err?: Error, data?: string): void => {
             if (err) {
                 reject(err);
             } else {
                 if (data) {
                     omittedFiles.add(JSON.parse(data).ignore || []);
                 }
-                process.nextTick(() => {
+                process.nextTick((): void => {
                     resolve();
                 });
             }
@@ -103,7 +103,7 @@ const getIgnoredData = (from: string, callback: (err: Error | null, data: Ignore
  * List the content of the directory
  */
 const getFolderContent = (from: string, callback: Callback): void => {
-    glob("**/*", {dot: true, nodir: true, cwd: from}, (err?: Error, files?: string[]) => {
+    glob("**/*", {dot: true, nodir: true, cwd: from}, (err?: Error, files?: string[]): void => {
         callback(err, files || null);
     });
 };
@@ -112,13 +112,13 @@ const getFolderContent = (from: string, callback: Callback): void => {
  * List the content to add to the Bower archive
  */
 const getBowerContent = (from: string): Promise<any> => {
-    return new Promise((resolve: (data: Ignore) => void, reject: (err: Error) => void) => {
+    return new Promise((resolve: (data: Ignore) => void, reject: (err: Error) => void): void => {
         const promises = [];
         let toIgnore;
         let content;
 
-        promises.push(new Promise((_resolve: () => void, _reject: (err: Error) => void) => {
-            getIgnoredData(from, (err?: Error, data?: Ignore) => {
+        promises.push(new Promise((_resolve: () => void, _reject: (err: Error) => void): void => {
+            getIgnoredData(from, (err?: Error, data?: Ignore): void => {
                 if (err) {
                     _reject(err);
                 } else {
@@ -128,8 +128,8 @@ const getBowerContent = (from: string): Promise<any> => {
             });
         }));
 
-        promises.push(new Promise((_resolve: () => void, _reject: (err: Error) => void) => {
-            getFolderContent(from, (err?: Error, data?: string[]) => {
+        promises.push(new Promise((_resolve: () => void, _reject: (err: Error) => void): void => {
+            getFolderContent(from, (err?: Error, data?: string[]): void => {
                 if (err) {
                     _reject(err);
                 } else {
@@ -154,7 +154,7 @@ const getBowerContent = (from: string): Promise<any> => {
  * Read and parse a JSON file
  */
 const readJsonFromFile = (from: string, callback: Callback): void => {
-    readFile(from, false, (err?: Error, data?: string) => {
+    readFile(from, false, (err?: Error, data?: string): void => {
         if (err) {
             callback(err, null);
         } else {
@@ -200,8 +200,8 @@ const validateUpackData = (name: string, version: string, group: string, descrip
  * Create the upack.json file and return the name the package should have.
  */
 const createUpackJson = (from: string): Promise<any> => {
-    return new Promise((resolve, reject) => {
-        readJsonFromFile(path.join(from, "bower.json"), (err?: Error, data?: BowerJSON) => {
+    return new Promise((resolve, reject): void => {
+        readJsonFromFile(path.join(from, "bower.json"), (err?: Error, data?: BowerJSON): void => {
             if (err) {
                 throw err;
             } else {
@@ -217,7 +217,7 @@ const createUpackJson = (from: string): Promise<any> => {
 
                 const upackJsonPath = path.join(from, "upack.json");
 
-                writeFile(upackJsonPath, true, prettyJsonStringify(upackJson), (err_?: Error) => {
+                writeFile(upackJsonPath, true, prettyJsonStringify(upackJson), (err_?: Error): void => {
                     if (err_) {
                         reject(err_);
                     } else {
@@ -236,7 +236,7 @@ const createUpackJson = (from: string): Promise<any> => {
  * Change the version in the bower.json file.
  */
 const updateVersionBowerJson = (from: string, version: string, callback: ErrOnlyCallback): void => {
-    readJsonFromFile(path.join(from, "bower.json"), (err?: Error, data?: BowerJSON) => {
+    readJsonFromFile(path.join(from, "bower.json"), (err?: Error, data?: BowerJSON): void => {
         if (err) {
             callback(err);
         } else {
@@ -251,7 +251,7 @@ const updateVersionBowerJson = (from: string, version: string, callback: ErrOnly
  * Change the feed in the .bowerrc file.
  */
 const updateFeedBowerRc = (from: string, feed: string, callback: ErrOnlyCallback): void => {
-    readJsonFromFile(path.join(from, ".bowerrc"), (err?: Error, data?: BowerJSON) => {
+    readJsonFromFile(path.join(from, ".bowerrc"), (err?: Error, data?: BowerJSON): void => {
         if (err) {
             callback(err);
         } else {

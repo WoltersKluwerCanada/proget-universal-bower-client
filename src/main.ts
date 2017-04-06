@@ -2,6 +2,7 @@
 
 import * as color from "colors/safe";
 import * as fs from "fs";
+import * as glob from "glob";
 import {valid} from "semver";
 import createError from "./createError";
 import ErrorN from "./ErrorN";
@@ -25,7 +26,7 @@ const semverVersion = (element?: string, program?): string | boolean => {
 /**
  * Terminate the application
  */
-const close = (err?: ErrorN) => {
+const close = (err?: ErrorN): void => {
     if (err) {
         process.stderr.write(color.red(`${err}\n`));
 
@@ -44,7 +45,7 @@ const close = (err?: ErrorN) => {
 /**
  * Once the Version his treated, this section his executed
  */
-const mainExecution = (program) => {
+const mainExecution = (program): void => {
     /**
      * Pack section
      */
@@ -57,8 +58,46 @@ const mainExecution = (program) => {
     /**
      * Push section
      */
-    const _push = (forceFrom: string|null, callback: ErrOnlyCallback): void => {
+    const _push = (forceFrom: string | null, callback: ErrOnlyCallback): void => {
         push(forceFrom || program.push, program.source, program.deploy, callback);
+    };
+
+    /**
+     * Push multiple packages
+     */
+    const _multiplePush = (callback: ErrOnlyCallback): void => {
+        const packagePattern = program.push;
+
+        glob(packagePattern, (err: Error, filesPath: string[]): void => {
+            if (err) {
+                callback(err);
+            } else if (filesPath.length === 0) {
+                callback(createError(`The pattern ${packagePattern} doesn't match anything.`, "EPATTERN"));
+            } else {
+                const promises = [];
+
+                for (const filePath of filesPath) {
+                    promises.push(new Promise((resolve: () => void, reject: (pushError: Error) => void): void => {
+                        push(filePath, program.source, program.deploy, (pushError: Error | null): void => {
+                            if (pushError) {
+                                reject(pushError);
+                            } else {
+                                resolve();
+                            }
+                        });
+                    }));
+                }
+
+                Promise.all(promises).then(
+                    () => {
+                        callback(null);
+                    },
+                    (pushError: Error): void => {
+                        callback(pushError);
+                    }
+                );
+            }
+        });
     };
 
     // Detect the error in the format of the --Version parameter
@@ -87,7 +126,7 @@ const mainExecution = (program) => {
                 close(err);
             } else {
                 process.stdout.write(`${color.cyan("Pack of the package done.")}\n`);
-                _push(upackFileFolder, (err_?: ErrorN) => {
+                _push(upackFileFolder, (err_?: ErrorN): void => {
                     if (!err_) {
                         process.stdout.write(`${color.cyan("Push of the package done.")}\n`);
                     } else {
@@ -95,7 +134,7 @@ const mainExecution = (program) => {
                         close(err_);
                     }
 
-                    fs.unlink(upackFileFolder, (err__?: ErrorN) => {
+                    fs.unlink(upackFileFolder, (err__?: ErrorN): void => {
                         // May contain delete error
                         close(err__);
                     });
@@ -103,7 +142,7 @@ const mainExecution = (program) => {
             }
         });
     } else if (program.pack) {
-        _pack(null, (err?: ErrorN, data?: string) => {
+        _pack(null, (err?: ErrorN, data?: string): void => {
             if (!err) {
                 process.stdout.write(color.cyan(`Pack of the package done in ${data}.\n`));
             }
@@ -116,15 +155,21 @@ const mainExecution = (program) => {
             close(createError("You must specify a --source when calling --push.", "ECOMMAND"));
         }
 
-        _push(null, (err?: ErrorN) => {
+        const pushDone = (err?: ErrorN): void => {
             if (!err) {
                 process.stdout.write(`${color.cyan("Push of the package done.")}\n`);
             }
 
             close(err);
-        });
+        };
+
+        if (glob.hasMagic(program.push)) {
+            _multiplePush(pushDone);
+        } else {
+            _push(null, pushDone);
+        }
     } else if (program.Feed) {
-        updateFeedBowerRc(process.cwd(), program.Feed, (err?: ErrorN) => {
+        updateFeedBowerRc(process.cwd(), program.Feed, (err?: ErrorN): void => {
             close(err);
         });
     } else {
@@ -137,7 +182,7 @@ const mainExecution = (program) => {
  *
  * @param {program} program - The object that come from the commander module.
  */
-const main = (program) => {
+const main = (program): void => {
     program.Version = semverVersion(program.Version, program);
 
     if (program.Version === false) {
@@ -147,12 +192,12 @@ const main = (program) => {
 
         if (program.Feed && program.Version && cwd) {
             // Update the feed in the .bowerrc file
-            updateFeedBowerRc(cwd, program.Feed, (err?: ErrorN) => {
+            updateFeedBowerRc(cwd, program.Feed, (err?: ErrorN): void => {
                 if (err) {
                     close(err);
                 } else {
                     // Update the version in the bower.json file
-                    updateVersionBowerJson(cwd, program.Version, (err_?: ErrorN) => {
+                    updateVersionBowerJson(cwd, program.Version, (err_?: ErrorN): void => {
                         if (err_) {
                             close(err_);
                         } else {
@@ -163,7 +208,7 @@ const main = (program) => {
             });
         } else if (program.Feed && cwd) {
             // Update the feed in the .bowerrc file
-            updateFeedBowerRc(cwd, program.Feed, (err?: ErrorN) => {
+            updateFeedBowerRc(cwd, program.Feed, (err?: ErrorN): void => {
                 if (err) {
                     close(err);
                 } else {
@@ -172,7 +217,7 @@ const main = (program) => {
             });
         } else if (program.Version && cwd) {
             // Update the version in the bower.json file
-            updateVersionBowerJson(cwd, program.Version, (err?: ErrorN) => {
+            updateVersionBowerJson(cwd, program.Version, (err?: ErrorN): void => {
                 if (err) {
                     close(err);
                 } else {

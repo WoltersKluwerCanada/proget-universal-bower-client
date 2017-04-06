@@ -1,3 +1,3 @@
 declare interface ErrOnlyCallback {
-    (err: Error|null): void;
+    (err: Error | null): void;
 }

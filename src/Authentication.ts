@@ -118,4 +118,4 @@ export default class Authentication {
             return "";
         }
     }
-}
+};

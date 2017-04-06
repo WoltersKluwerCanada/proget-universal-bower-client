@@ -8,12 +8,12 @@ import * as path from "path";
 import * as request from "request";
 import createError from "./createError";
 
-const upload = (src: string, uploadStream, hasRetry: boolean, url: string, credentials, cb: ErrOnlyCallback) => {
+const upload = (src: string, uploadStream, hasRetry: boolean, url: string, credentials, cb: ErrOnlyCallback): void => {
     const readStream = fs.createReadStream(src);
     let stopped = false;
 
     readStream.pipe(uploadStream(url)
-        .on("response", (res) => {
+        .on("response", (res): void => {
             const status = res.statusCode;
 
             if (status >= 300 && status < 400) {
@@ -35,13 +35,13 @@ const upload = (src: string, uploadStream, hasRetry: boolean, url: string, crede
                 }));
             }
         })
-        .on("error", (err?: Error) => {
+        .on("error", (err?: Error): void => {
             if (!stopped) {
                 stopped = true;
                 cb(err);
             }
         })
-        .on("end", () => {
+        .on("end", (): void => {
             if (!stopped) {
                 cb(null);
             }
@@ -49,7 +49,7 @@ const upload = (src: string, uploadStream, hasRetry: boolean, url: string, crede
     );
 
     readStream
-        .on("error", (err?: Error) => {
+        .on("error", (err?: Error): void => {
             if (!stopped) {
                 stopped = true;
                 cb(err);

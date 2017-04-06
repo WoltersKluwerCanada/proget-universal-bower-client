@@ -40,9 +40,9 @@ const zip = (cmd: string[], cwd: string, callback: ErrOnlyCallback): void => {
         width: 20
     });
 
-    const zipNext = () => {
+    const zipNext = (): void => {
         if (position < cmd.length) {
-            exec(cmd[position], {cwd}, (err) => {
+            exec(cmd[position], {cwd}, (err): void => {
                 if (err) {
                     callback(err);
                 } else {
@@ -79,15 +79,15 @@ const zipAll = (dest: string, files: string[], cwd: string, callback: Callback):
 
     const cmd = partitionCmd(`7z a "${tempPath}"`, files, 4000);
 
-    zip(cmd, cwd, (err?: Error) => {
+    zip(cmd, cwd, (err?: Error): void => {
         if (err) {
             callback(err, null);
         } else {
-            fs.rename(tempPath, dest, (err_?: ErrorN) => {
+            fs.rename(tempPath, dest, (err_?: ErrorN): void => {
                 if (err_) {
                     if (err_.code === "ENOENT") {
                         // Delete the archive
-                        fs.unlink(tempPath, () => {
+                        fs.unlink(tempPath, (): void => {
                             callback(err_, null);
                         });
                     } else {
@@ -111,11 +111,11 @@ const archive = (destination: string, files: string[], cwd: string, force: boole
         return path.normalize(el);
     });
 
-    fs.stat(destination, (err?: Error) => {
+    fs.stat(destination, (err?: Error): void => {
         if (!err && !force) {
             callback(createError(`The archive ${destination} already exist.`, "EEXIST"), null);
         } else {
-            zipAll(destination, files, cwd, (err_?: ErrorN, data?: string) => {
+            zipAll(destination, files, cwd, (err_?: ErrorN, data?: string): void => {
                 callback(err_, data);
             });
         }

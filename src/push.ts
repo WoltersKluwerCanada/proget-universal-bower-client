@@ -9,20 +9,20 @@ import createError from "./createError";
 /**
  * Prepare the package to be send to the server
  */
-const push = (from: string, to: string, deploy: string|null, callback: ErrOnlyCallback): void => {
+const push = (from: string, to: string, deploy: string | null, callback: ErrOnlyCallback): void => {
     to = `${to}/upload`;
 
     // Update the location to get the local .npmrc
     Authentication.getInstance().addPossibleConfigFolder(path.dirname(from));
 
-    fs.stat(from, (err?: Error) => {
+    fs.stat(from, (err?: Error): void => {
         if (err) {
             callback(createError(`The file ${from} doesn't exist.`, "ENOENT"));
         } else {
             const credentials = Authentication.getInstance().getCredentialsByURI(to);
 
             if (credentials) {
-                communication(from, to, credentials, (err__?: Error) => {
+                communication(from, to, credentials, (err__?: Error): void => {
                     // If the transmission failed, delete the package if from command deploy
                     if (err__ && deploy) {
                         fs.unlink(from, () => {
