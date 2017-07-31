@@ -1,10 +1,5 @@
 # Contributing
 
-## Generate the Doc
-```
-npm run jsDoc
-```
-
 ## Run unit test
 ```
 npm run unit
