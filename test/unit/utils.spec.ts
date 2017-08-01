@@ -1,5 +1,7 @@
 "use strict";
 
+/* tslint:disable:only-arrow-functions no-unused-expression */
+
 import {expect} from "chai";
 import * as fs from "fs";
 import * as glob from "glob";
@@ -74,8 +76,8 @@ describe("utils", function() {
             glob("**", {dot: true, nodir: true, cwd: testFolder}, (err, files) => {
                 expect(err).to.be.null;
 
-                getFolderContent(testFolder, (err_, data) => {
-                    expect(err_).to.be.null;
+                getFolderContent(testFolder, (folderListingError, data) => {
+                    expect(folderListingError).to.be.null;
 
                     expect(data).to.be.a("Array");
                     expect(data).eql(files);
@@ -126,9 +128,9 @@ describe("utils", function() {
             bowerrc = JSON.parse(bowerrc);
 
             try {
-                readJsonFromFile(path.join(testFolder, ".bowerrc"), (err_, data) => {
+                readJsonFromFile(path.join(testFolder, ".bowerrc"), (readJsonError, data) => {
                     try {
-                        expect(err_).to.be.null;
+                        expect(readJsonError).to.be.null;
 
                         expect(data).eql(bowerrc);
 
@@ -159,8 +161,8 @@ describe("utils", function() {
                         if (err) {
                             done(err);
                         } else {
-                            fs.unlink(upackFilePath, (err_) => {
-                                done(err_);
+                            fs.unlink(upackFilePath, (fileDeleteError) => {
+                                done(fileDeleteError);
                             });
                         }
                     });

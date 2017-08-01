@@ -1,5 +1,7 @@
 "use strict";
 
+/* tslint:disable:only-arrow-functions no-unused-expression */
+
 import {expect} from "chai";
 import {exec} from "child_process";
 import * as fs from "fs-extra";
@@ -32,8 +34,8 @@ describe("deploy", function() {
             if (err) {
                 done(err);
             } else {
-                fs.copy(npmrcSource, npmrcDestination, (err_) => {
-                    done(err_);
+                fs.copy(npmrcSource, npmrcDestination, (fileCopyError) => {
+                    done(fileCopyError);
                 });
             }
         });

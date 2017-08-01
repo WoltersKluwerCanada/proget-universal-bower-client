@@ -4,48 +4,36 @@ import * as fs from "fs";
 import * as path from "path";
 import * as rimraf from "rimraf";
 
-/**
- * Create a temp folder
- *
- * @param {string} root - Path to the temp package
- * @param {function} callback - The method to call after the execution
- */
-const createTestFolder = (root, callback) => {
+const createTestFolder = (root: string, callback: ErrOnlyCallback) => {
     fs.stat(root, (err) => {
         if (err && err.code === "ENOENT") {
             // Folder don't exist
-            fs.mkdir(root, (err_) => {
-                if (err_) {
-                    callback(err_);
+            fs.mkdir(root, (folderCreationError) => {
+                if (folderCreationError) {
+                    callback(folderCreationError);
                 } else {
-                    callback();
+                    callback(null);
                 }
             });
         } else {
             // Clear the content of the folder, just in case
-            rimraf(path.join(root, "*"), (err_) => {
-                if (err_) {
-                    callback(err_);
+            rimraf(path.join(root, "*"), (folderDeletionError) => {
+                if (folderDeletionError) {
+                    callback(folderDeletionError);
                 } else {
-                    callback();
+                    callback(null);
                 }
             });
         }
     });
 };
 
-/**
- * Delete a temp folder
- *
- * @param {string} path - PPath to the temp package
- * @param {function} callback - The method to call after the execution
- */
-const deleteTestFolder = (path, callback) => {
-    rimraf(path, (err) => {
+const deleteTestFolder = (pathToFolder: string, callback: ErrOnlyCallback) => {
+    rimraf(pathToFolder, (err) => {
         if (err) {
             callback(err);
         } else {
-            callback();
+            callback(null);
         }
     });
 };

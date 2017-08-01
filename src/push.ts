@@ -22,14 +22,14 @@ const push = (from: string, to: string, deploy: string | null, callback: ErrOnly
             const credentials = Authentication.getInstance().getCredentialsByURI(to);
 
             if (credentials) {
-                communication(from, to, credentials, (err__?: Error): void => {
+                communication(from, to, credentials, (communicationError?: Error): void => {
                     // If the transmission failed, delete the package if from command deploy
-                    if (err__ && deploy) {
+                    if (communicationError && deploy) {
                         fs.unlink(from, () => {
-                            callback(err__);
+                            callback(communicationError);
                         });
                     } else {
-                        callback(err__);
+                        callback(communicationError);
                     }
                 });
             } else {

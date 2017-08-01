@@ -1,5 +1,7 @@
 "use strict";
-/* tslint:disable:max-line-length */
+
+/* tslint:disable:only-arrow-functions no-unused-expression max-line-length */
+
 import * as program from "commander";
 import * as fs from "fs";
 import * as path from "path";
@@ -23,7 +25,7 @@ const parsePath = (element?: string): string => {
 };
 
 const errorFct = (err: Error): void => {
-    console.error(err);
+    process.stderr.write(`\x1b[31m${err.stack}\x1b[0m\n`);
     process.exit(1);
 };
 

@@ -1,5 +1,7 @@
 "use strict";
 
+/* tslint:disable:only-arrow-functions no-unused-expression */
+
 import {expect} from "chai";
 import {exec} from "child_process";
 import * as path from "path";

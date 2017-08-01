@@ -1,5 +1,7 @@
 "use strict";
 
+/* tslint:disable:only-arrow-functions no-unused-expression */
+
 import * as path from "path";
 import communication from "../../src/communication";
 import Server from "../server/server";

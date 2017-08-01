@@ -26,7 +26,7 @@ class Server {
     }
 
     public port: string = testPort;
-    public lastFileInfo: {name: string, same: boolean};
+    public lastFileInfo: { name: string, same: boolean };
     public started: boolean = false;
     public server = http.createServer(this.router);
 
@@ -74,11 +74,11 @@ class Server {
 
         const bufs = [];
 
-        request.on("data", function(d) {
+        request.on("data", (d) => {
             bufs.push(d);
         });
 
-        request.on("end", function() {
+        request.on("end", () => {
             const buf = Buffer.concat(bufs);
 
             if (buf.compare(upackInitial) === 0) {

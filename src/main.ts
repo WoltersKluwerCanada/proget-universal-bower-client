@@ -126,17 +126,17 @@ const mainExecution = (program): void => {
                 close(err);
             } else {
                 process.stdout.write(`${color.cyan("Pack of the package done.")}\n`);
-                _push(upackFileFolder, (err_?: ErrorN): void => {
-                    if (!err_) {
+                _push(upackFileFolder, (pushError?: ErrorN): void => {
+                    if (!pushError) {
                         process.stdout.write(`${color.cyan("Push of the package done.")}\n`);
                     } else {
                         // Error while push
-                        close(err_);
+                        close(pushError);
                     }
 
-                    fs.unlink(upackFileFolder, (err__?: ErrorN): void => {
+                    fs.unlink(upackFileFolder, (folderDeleteError?: ErrorN): void => {
                         // May contain delete error
-                        close(err__);
+                        close(folderDeleteError);
                     });
                 });
             }
@@ -197,9 +197,9 @@ const main = (program): void => {
                     close(err);
                 } else {
                     // Update the version in the bower.json file
-                    updateVersionBowerJson(cwd, program.Version, (err_?: ErrorN): void => {
-                        if (err_) {
-                            close(err_);
+                    updateVersionBowerJson(cwd, program.Version, (updateBowerVersionError?: ErrorN): void => {
+                        if (updateBowerVersionError) {
+                            close(updateBowerVersionError);
                         } else {
                             mainExecution(program);
                         }

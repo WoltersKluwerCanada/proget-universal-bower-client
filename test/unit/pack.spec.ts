@@ -1,5 +1,7 @@
 "use strict";
 
+/* tslint:disable:only-arrow-functions no-unused-expression */
+
 import {expect} from "chai";
 import * as fs from "fs";
 import * as path from "path";
@@ -21,8 +23,8 @@ describe("pack", function() {
 
                 expect(data).to.have.string(testFolder);
 
-                fs.stat(data, (err_) => {
-                    done(err_);
+                fs.stat(data, (fileStatusError) => {
+                    done(fileStatusError);
                 });
             } catch (e) {
                 done(e);
@@ -37,8 +39,8 @@ describe("pack", function() {
 
                 expect(data).to.have.string(testFolder);
 
-                fs.stat(data, (err_) => {
-                    done(err_);
+                fs.stat(data, (fileStatusError) => {
+                    done(fileStatusError);
                 });
             } catch (e) {
                 done(e);

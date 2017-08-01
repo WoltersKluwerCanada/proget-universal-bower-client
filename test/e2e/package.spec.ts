@@ -1,5 +1,7 @@
 "use strict";
 
+/* tslint:disable:only-arrow-functions no-unused-expression */
+
 import {exec} from "child_process";
 import * as fs from "fs-extra";
 import * as path from "path";
@@ -17,12 +19,12 @@ describe("package", function() {
             if (err) {
                 done(err);
             } else {
-                fs.remove(testFolderTemp, (err_) => {
-                    if (err_) {
-                        done(err_);
+                fs.remove(testFolderTemp, (fileDeleteError) => {
+                    if (fileDeleteError) {
+                        done(fileDeleteError);
                     } else {
-                        fs.remove(testFolderTempWithSpace, (err__) => {
-                            done(err__);
+                        fs.remove(testFolderTempWithSpace, (folderDeleteError) => {
+                            done(folderDeleteError);
                         });
                     }
                 });
@@ -42,8 +44,8 @@ describe("package", function() {
                 if (err) {
                     done(err);
                 } else {
-                    fs.stat(path.join(testFolder, "test-packBower.0.0.0.upack"), (err__) => {
-                        done(err__);
+                    fs.stat(path.join(testFolder, "test-packBower.0.0.0.upack"), (fileStatusError) => {
+                        done(fileStatusError);
                     });
                 }
             });
@@ -59,12 +61,12 @@ describe("package", function() {
                     done(err);
                 } else {
                     // Try to make a new one (will fail if --force don't work)
-                    exec(`node ${cliPath} --pack . --force`, {cwd: testFolder}, (err_) => {
-                        if (err_) {
-                            done(err_);
+                    exec(`node ${cliPath} --pack . --force`, {cwd: testFolder}, (commandExecutionError) => {
+                        if (commandExecutionError) {
+                            done(commandExecutionError);
                         } else {
-                            fs.stat(path.join(testFolder, "test-packBower.0.0.0.upack"), (err__) => {
-                                done(err__);
+                            fs.stat(path.join(testFolder, "test-packBower.0.0.0.upack"), (fileStatusError) => {
+                                done(fileStatusError);
                             });
                         }
                     });
@@ -79,18 +81,18 @@ describe("package", function() {
                 } else {
                     exec(`node ${cliPath} --pack ${testFolder} --outputDirectory ${testFolderTemp}`,
                         {cwd: __dirname},
-                        (err_) => {
-                            if (err_) {
-                                done(err_);
+                        (commandExecutionError) => {
+                            if (commandExecutionError) {
+                                done(commandExecutionError);
                             } else {
-                                fs.stat(path.join(testFolder, "test-packBower.0.0.0.upack"), (err__) => {
-                                    if (err__) {
-                                        fs.stat(path.join(testFolderTemp, "test-packBower.0.0.0.upack"), (err_3) => {
-                                            if (err_3) {
-                                                done(err_3);
+                                fs.stat(path.join(testFolder, "test-packBower.0.0.0.upack"), (firstUpackFileStatusError) => {
+                                    if (firstUpackFileStatusError) {
+                                        fs.stat(path.join(testFolderTemp, "test-packBower.0.0.0.upack"), (secondUpackFileStatusError) => {
+                                            if (secondUpackFileStatusError) {
+                                                done(secondUpackFileStatusError);
                                             } else {
-                                                fs.remove(testFolderTemp, (err_4) => {
-                                                    done(err_4);
+                                                fs.remove(testFolderTemp, (folderDeleteError) => {
+                                                    done(folderDeleteError);
                                                 });
                                             }
                                         });
@@ -114,19 +116,19 @@ describe("package", function() {
                 } else {
                     exec(`node ${cliPath} --pack ${testFolder} --outputDirectory "${testFolderTempWithSpace}"`,
                         {cwd: __dirname},
-                        (err_) => {
-                            if (err_) {
-                                done(err_);
+                        (commandExecutionError) => {
+                            if (commandExecutionError) {
+                                done(commandExecutionError);
                             } else {
-                                fs.stat(path.join(testFolder, "test-packBower.0.0.0.upack"), (err__) => {
-                                    if (err__) {
+                                fs.stat(path.join(testFolder, "test-packBower.0.0.0.upack"), (firstUpackFileStatusError) => {
+                                    if (firstUpackFileStatusError) {
                                         fs.stat(path.join(testFolderTempWithSpace, "test-packBower.0.0.0.upack"),
-                                            (err_3) => {
-                                                if (err_3) {
-                                                    done(err_3);
+                                            (secondUpackFileStatusError) => {
+                                                if (secondUpackFileStatusError) {
+                                                    done(secondUpackFileStatusError);
                                                 } else {
-                                                    fs.remove(testFolderTempWithSpace, (err_4) => {
-                                                        done(err_4);
+                                                    fs.remove(testFolderTempWithSpace, (folderDeleteError) => {
+                                                        done(folderDeleteError);
                                                     });
                                                 }
                                             }
@@ -149,8 +151,8 @@ describe("package", function() {
                 if (err) {
                     done(err);
                 } else {
-                    fs.stat(path.join(testFolder, "test-packBower.0.0.0.upack"), (err_) => {
-                        done(err_);
+                    fs.stat(path.join(testFolder, "test-packBower.0.0.0.upack"), (fileStatusError) => {
+                        done(fileStatusError);
                     });
                 }
             });
@@ -166,12 +168,12 @@ describe("package", function() {
                     done(err);
                 } else {
                     // Try to make a new one (will fail if --force don't work)
-                    exec(`node ${cliPath} --pack . --force`, {cwd: testFolder}, (err_) => {
-                        if (err_) {
-                            done(err_);
+                    exec(`node ${cliPath} --pack . --force`, {cwd: testFolder}, (commandExecutionError) => {
+                        if (commandExecutionError) {
+                            done(commandExecutionError);
                         } else {
-                            fs.stat(path.join(testFolder, "test-packBower.0.0.0.upack"), (err__) => {
-                                done(err__);
+                            fs.stat(path.join(testFolder, "test-packBower.0.0.0.upack"), (fileStatusError) => {
+                                done(fileStatusError);
                             });
                         }
                     });
@@ -184,18 +186,18 @@ describe("package", function() {
                 if (err) {
                     done(err);
                 } else {
-                    exec(`node ${cliPath} --pack . --outputDirectory ${testFolderTemp}`, {cwd: testFolder}, (err_) => {
-                        if (err_) {
-                            done(err_);
+                    exec(`node ${cliPath} --pack . --outputDirectory ${testFolderTemp}`, {cwd: testFolder}, (commandExecutionError) => {
+                        if (commandExecutionError) {
+                            done(commandExecutionError);
                         } else {
-                            fs.stat(path.join(testFolder, "test-packBower.0.0.0.upack"), (err__) => {
-                                if (err__) {
-                                    fs.stat(path.join(testFolderTemp, "test-packBower.0.0.0.upack"), (err_3) => {
-                                        if (err_3) {
-                                            done(err_3);
+                            fs.stat(path.join(testFolder, "test-packBower.0.0.0.upack"), (firstUpackFileStatusError) => {
+                                if (firstUpackFileStatusError) {
+                                    fs.stat(path.join(testFolderTemp, "test-packBower.0.0.0.upack"), (secondUpackFileStatusError) => {
+                                        if (secondUpackFileStatusError) {
+                                            done(secondUpackFileStatusError);
                                         } else {
-                                            fs.remove(testFolderTemp, (err_4) => {
-                                                done(err_4);
+                                            fs.remove(testFolderTemp, (folderDeleteError) => {
+                                                done(folderDeleteError);
                                             });
                                         }
                                     });
@@ -215,8 +217,8 @@ describe("package", function() {
             if (err) {
                 done(err);
             } else {
-                fs.stat(path.join(testFolder, "test-packBower.0.0.0.upack"), (err_) => {
-                    done(err_);
+                fs.stat(path.join(testFolder, "test-packBower.0.0.0.upack"), (fileStatusError) => {
+                    done(fileStatusError);
                 });
             }
         });
@@ -233,12 +235,12 @@ describe("package", function() {
             if (err) {
                 done(err);
             } else {
-                fs.remove(testFolderTemp, (err_) => {
-                    if (err_) {
-                        done(err_);
+                fs.remove(testFolderTemp, (folderDeleteError) => {
+                    if (folderDeleteError) {
+                        done(folderDeleteError);
                     } else {
-                        fs.remove(testFolderTempWithSpace, (err__) => {
-                            done(err__);
+                        fs.remove(testFolderTempWithSpace, (folderWithSpaceDeleteError) => {
+                            done(folderWithSpaceDeleteError);
                         });
                     }
                 });

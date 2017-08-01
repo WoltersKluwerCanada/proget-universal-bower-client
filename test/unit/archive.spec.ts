@@ -1,5 +1,7 @@
 "use strict";
 
+/* tslint:disable:only-arrow-functions no-unused-expression */
+
 import * as fs from "fs";
 import * as glob from "glob";
 import * as path from "path";
@@ -22,12 +24,12 @@ describe("archive", function() {
             if (err) {
                 done(err);
             } else {
-                archive(path.join(testFolder, "test-packBower.0.0.0.upack"), files, archiveFolder, false, (err_) => {
-                    if (err_) {
-                        done(err_);
+                archive(path.join(testFolder, "test-packBower.0.0.0.upack"), files, archiveFolder, false, (archiveError) => {
+                    if (archiveError) {
+                        done(archiveError);
                     } else {
-                        fs.stat(path.join(testFolder, "test-packBower.0.0.0.upack"), (err__) => {
-                            done(err__);
+                        fs.stat(path.join(testFolder, "test-packBower.0.0.0.upack"), (fileStatusError) => {
+                            done(fileStatusError);
                         });
                     }
                 });

@@ -1,3 +1,1 @@
-declare interface ErrOnlyCallback {
-    (err: Error | null): void;
-}
+type ErrOnlyCallback = (err: Error | null) => void;

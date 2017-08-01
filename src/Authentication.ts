@@ -95,7 +95,7 @@ export default class Authentication {
         }
     }
 
-    public  addPossibleConfigFolder(folder: string): void {
+    public addPossibleConfigFolder(folder: string): void {
         this.possibleDirectories.unshift(folder);
     }
 
@@ -118,4 +118,4 @@ export default class Authentication {
             return "";
         }
     }
-};
+}

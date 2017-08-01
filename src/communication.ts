@@ -1,8 +1,5 @@
 "use strict";
-/**
- * Communication module.
- * @module communication
- */
+
 import * as fs from "fs";
 import * as path from "path";
 import * as request from "request";

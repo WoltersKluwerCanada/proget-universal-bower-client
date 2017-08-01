@@ -1,5 +1,7 @@
 "use strict";
 
+/* tslint:disable:only-arrow-functions no-unused-expression */
+
 import {expect} from "chai";
 import {exec} from "child_process";
 import * as fs from "fs-extra";
@@ -23,13 +25,13 @@ describe("push", function() {
             } else {
                 fs.copy(path.join(__dirname, "..", "data", "pkg.upack"),
                     path.join(testFolder, fileName),
-                    (err_) => {
-                        if (err_) {
-                            done(err_);
+                    (upackFileCopyError) => {
+                        if (upackFileCopyError) {
+                            done(upackFileCopyError);
                         } else {
-                            fs.copy(npmrcSource, npmrcDestination, (err__) => {
-                                if (err__) {
-                                    done(err__);
+                            fs.copy(npmrcSource, npmrcDestination, (npmFileCopyError) => {
+                                if (npmFileCopyError) {
+                                    done(npmFileCopyError);
                                 } else {
                                     server.startServer(done);
                                 }
