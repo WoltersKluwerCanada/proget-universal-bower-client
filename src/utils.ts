@@ -2,9 +2,11 @@
 
 import * as fs from "fs";
 import * as glob from "glob";
-import * as ignore from "ignore";
 import * as path from "path";
 import createError from "./createError";
+
+/* tslint:disable:no-var-requires */
+const ignore = require("ignore");
 
 /**
  * Pretty stringify JSON
@@ -20,13 +22,13 @@ const writeFile = (filePath: string, replaceExist: boolean, content: string, cal
     fs.stat(filePath, (err?: Error): void => {
         // If the file exist and replaceExist
         if (err) {
-            fs.writeFile(filePath, content, (err_?: Error): void => {
-                callback(err_);
+            fs.writeFile(filePath, content, (fileRenamingError?: Error): void => {
+                callback(fileRenamingError);
             });
         } else {
             if (replaceExist) {
-                fs.writeFile(filePath, content, (err__?: Error): void => {
-                    callback(err__);
+                fs.writeFile(filePath, content, (fileWriteError?: Error): void => {
+                    callback(fileWriteError);
                 });
             } else {
                 callback(createError(`The file ${filePath} already exist.`, "EEXIST"));
@@ -47,8 +49,8 @@ const readFile = (filePath: string, ignoreENOENT: boolean, callback: Callback): 
                 callback(err, null);
             }
         } else {
-            fs.readFile(filePath, "utf8", (err_?: Error, data?: string): void => {
-                callback(err_, data);
+            fs.readFile(filePath, "utf8", (fileReadError?: Error, data?: string): void => {
+                callback(fileReadError, data);
             });
         }
     });
@@ -217,9 +219,9 @@ const createUpackJson = (from: string): Promise<any> => {
 
                 const upackJsonPath = path.join(from, "upack.json");
 
-                writeFile(upackJsonPath, true, prettyJsonStringify(upackJson), (err_?: Error): void => {
-                    if (err_) {
-                        reject(err_);
+                writeFile(upackJsonPath, true, prettyJsonStringify(upackJson), (fileWriteError?: Error): void => {
+                    if (fileWriteError) {
+                        reject(fileWriteError);
                     } else {
                         resolve({
                             json: "upack.json",

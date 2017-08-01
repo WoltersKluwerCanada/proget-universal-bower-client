@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.4.1 - 2017-08-01
+
+- Internally: Update TsLint version.
+- Internally: Change the way TypeScript build.
+- Internally: Make changes for NPM v5.
+- Internally: Make changes for new TypeScript, Mocha and TsLint version.
+- Internally: Add Node.js v8 as test environment.
+
 ## v0.4.0 - 2017-04-06
 
 - Add: Now you can `push` package specifying a glob star (`*`).

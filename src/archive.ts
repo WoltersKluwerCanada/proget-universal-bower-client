@@ -83,15 +83,15 @@ const zipAll = (dest: string, files: string[], cwd: string, callback: Callback):
         if (err) {
             callback(err, null);
         } else {
-            fs.rename(tempPath, dest, (err_?: ErrorN): void => {
-                if (err_) {
-                    if (err_.code === "ENOENT") {
+            fs.rename(tempPath, dest, (fileRenameError?: ErrorN): void => {
+                if (fileRenameError) {
+                    if (fileRenameError.code === "ENOENT") {
                         // Delete the archive
                         fs.unlink(tempPath, (): void => {
-                            callback(err_, null);
+                            callback(fileRenameError, null);
                         });
                     } else {
-                        callback(err_, null);
+                        callback(fileRenameError, null);
                     }
                 } else {
                     callback(null, dest);
@@ -115,8 +115,8 @@ const archive = (destination: string, files: string[], cwd: string, force: boole
         if (!err && !force) {
             callback(createError(`The archive ${destination} already exist.`, "EEXIST"), null);
         } else {
-            zipAll(destination, files, cwd, (err_?: ErrorN, data?: string): void => {
-                callback(err_, data);
+            zipAll(destination, files, cwd, (documentCompressError?: ErrorN, data?: string): void => {
+                callback(documentCompressError, data);
             });
         }
     });

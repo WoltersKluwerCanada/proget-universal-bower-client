@@ -1,5 +1,7 @@
 "use strict";
 
+/* tslint:disable:only-arrow-functions no-unused-expression */
+
 import {expect} from "chai";
 import {exec} from "child_process";
 import * as fs from "fs-extra";
@@ -32,8 +34,8 @@ describe("Version", function() {
             if (err) {
                 done(err);
             } else {
-                fs.copy(npmrcSource, npmrcDestination, (err_) => {
-                    done(err_);
+                fs.copy(npmrcSource, npmrcDestination, (fileCopyError) => {
+                    done(fileCopyError);
                 });
             }
         });
@@ -45,9 +47,9 @@ describe("Version", function() {
                 done(err);
             } else {
                 // Test that the file exist
-                fs.stat(`${testFolder}/test-packBower.1.2.3.upack`, (err_) => {
-                    if (err_) {
-                        done(err_);
+                fs.stat(`${testFolder}/test-packBower.1.2.3.upack`, (fileStatusError) => {
+                    if (fileStatusError) {
+                        done(fileStatusError);
                     } else {
                         done();
                     }
