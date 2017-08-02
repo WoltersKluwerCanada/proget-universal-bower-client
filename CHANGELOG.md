@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.4.1 - 2017-08-01
+## v0.4.1 - 2017-08-02
 
 - Internally: Update TsLint version.
 - Internally: Change the way TypeScript build.
